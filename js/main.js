@@ -6,29 +6,45 @@ var canvas = document.getElementById('canvas');
 canvas.width = document.body.clientWidth;
 canvas.height = document.body.clientHeight;
 
-var cursor = canvas.getContext('2d');
-
-cursor.beginPath();
-
 var xCenter = canvas.width / 2;
 
 var startY = 0;
-cursor.moveTo(xCenter, startY);
 
 var destY = startY + 1;
 
-var callback = function callback() {
+var blue = 0;
+
+var callback1 = function callback1() {
+	var cursor = canvas.getContext('2d');
+	cursor.beginPath();
+
+	cursor.moveTo(xCenter, startY);
 	cursor.lineTo(xCenter, destY);
 	cursor.lineWidth = 15;
+	cursor.strokeStyle = 'rgb(0, 0, ' + blue + ')';
 	cursor.stroke();
 	destY++;
-
-	// ctx.strokeStyle = "black";
-	// ctx.moveTo(point.startX, point.startY);
-	// ctx.lineTo(point.startX1, point.startY1);
-	// ctx.stroke();
+	blue += 2;
 };
 
-setInterval(callback, 200);
+setInterval(callback1, 35);
+
+var red = 0;
+var destY2 = startY + 1;
+
+var callback2 = function callback2() {
+	var cursor = canvas.getContext('2d');
+	cursor.beginPath();
+
+	cursor.moveTo(xCenter + 30, startY);
+	cursor.lineTo(xCenter + 30, destY2);
+	cursor.lineWidth = 15;
+	cursor.strokeStyle = 'rgb(0, ' + red + ', 0)';
+	cursor.stroke();
+	destY2++;
+	red += 2;
+};
+
+setInterval(callback2, 44);
 
 },{}]},{},[1]);
