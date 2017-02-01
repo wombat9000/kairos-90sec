@@ -12,9 +12,23 @@ cursor.beginPath();
 
 var xCenter = canvas.width / 2;
 
-cursor.moveTo(xCenter, 0);
-cursor.lineTo(xCenter, canvas.height);
-cursor.lineWidth = 15;
-cursor.stroke();
+var startY = 0;
+cursor.moveTo(xCenter, startY);
+
+var destY = startY + 1;
+
+var callback = function callback() {
+	cursor.lineTo(xCenter, destY);
+	cursor.lineWidth = 15;
+	cursor.stroke();
+	destY++;
+
+	// ctx.strokeStyle = "black";
+	// ctx.moveTo(point.startX, point.startY);
+	// ctx.lineTo(point.startX1, point.startY1);
+	// ctx.stroke();
+};
+
+setInterval(callback, 200);
 
 },{}]},{},[1]);
