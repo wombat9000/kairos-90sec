@@ -1,20 +1,20 @@
 'use strict';
 
-
-
 import {InstanceProvider} from "./InstanceProvider.es6";
 import Symbol from 'es6-symbol';
 
+const canvasController = Symbol();
+
 class App {
 	constructor(appDom) {
-		this.injectCanvas(appDom);
+		this[canvasController] = setupCanvasController(appDom);
 	}
+}
 
-	injectCanvas(appDom) {
-		const canvas = document.createElement('canvas');
-		appDom.appendChild(canvas);
-		const canvasController = InstanceProvider.getCanvasController(canvas);
-	}
+function setupCanvasController(appDom) {
+	const canvas = document.createElement('canvas');
+	appDom.appendChild(canvas);
+	return InstanceProvider.getCanvasController(canvas);
 }
 
 export {App};
