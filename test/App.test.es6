@@ -1,6 +1,8 @@
 'use strict';
 
 import {App} from '../src/App.es6';
+import {CanvasController} from '../src/CanvasController.es6';
+import {InstanceProvider} from '../src/InstanceProvider.es6';
 
 describe('App', function () {
 
@@ -8,6 +10,7 @@ describe('App', function () {
 	let createElementStub;
 	let sandbox;
 	let someCanvas;
+	let canvasControllerMock;
 
 	beforeEach(() => {
 		sandbox = sinon.sandbox.create();
@@ -17,8 +20,11 @@ describe('App', function () {
 		};
 
 		someCanvas = {
-
+			getContext: sinon.stub()
 		};
+
+		canvasControllerMock = sinon.createStubInstance(CanvasController);
+		sandbox.stub(InstanceProvider, 'getCanvasController').returns(canvasControllerMock);
 
 		createElementStub = sandbox.stub(document, 'createElement').returns(someCanvas);
 
