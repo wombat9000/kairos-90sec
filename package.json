@@ -38,7 +38,6 @@
   "devDependencies": {
     "babel-polyfill": "^6.20.0",
     "chai": "^3.5.0",
-    "eslint": "^3.13.1",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-browserify": "5.1.0",
     "karma-chai-sinon": "^0.1.5",
