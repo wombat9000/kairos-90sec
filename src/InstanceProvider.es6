@@ -1,6 +1,6 @@
 'use strict';
 
-import {CanvasController} from "./CanvasController.es6";
+import {CanvasController} from './CanvasController.es6';
 
 class InstanceProvider {
 

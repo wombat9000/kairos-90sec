@@ -1,6 +1,6 @@
 'use strict';
 
-import {InstanceProvider} from "./InstanceProvider.es6";
+import {InstanceProvider} from './InstanceProvider.es6';
 import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
