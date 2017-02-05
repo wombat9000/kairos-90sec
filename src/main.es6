@@ -4,8 +4,6 @@ const appDom = document.getElementById('app');
 
 const app = new App(appDom);
 
-// const canvas = document.getElementById('canvas');
-// canvas.width = document.body.clientWidth;
 // canvas.height = document.body.clientHeight;
 //
 // const canvasController = new CanvasController(canvas);

@@ -13,6 +13,8 @@ class App {
 
 function setupCanvasController(appDom) {
 	const canvas = document.createElement('canvas');
+	canvas.width = document.body.clientWidth;
+	canvas.height = document.body.clientHeight;
 	appDom.appendChild(canvas);
 	return InstanceProvider.getCanvasController(canvas);
 }

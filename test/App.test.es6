@@ -43,5 +43,10 @@ describe('App', function () {
 		it('should append canvas to dom', function () {
 			expect(appDomMock.appendChild).to.have.been.calledWith(someCanvas);
 		});
+
+		it('should set canvas width and height to client width and height', function () {
+			expect(someCanvas.width).to.equal(document.body.clientWidth);
+			expect(someCanvas.height).to.equal(document.body.clientHeight);
+		})
 	});
 });
