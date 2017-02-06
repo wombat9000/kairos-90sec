@@ -1,6 +1,6 @@
 'use strict';
 
-import {InstanceProvider} from './InstanceProvider.es6';
+import {CanvasController} from './CanvasController.es6';
 import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
@@ -8,6 +8,7 @@ const canvasController = Symbol();
 class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
+		this[canvasController].quack();
 	}
 }
 
@@ -16,7 +17,7 @@ function setupCanvasController(appDom) {
 	canvas.width = document.body.clientWidth;
 	canvas.height = document.body.clientHeight;
 	appDom.appendChild(canvas);
-	return InstanceProvider.getCanvasController(canvas);
+	return new CanvasController(canvas);
 }
 
 export {App};
