@@ -14,12 +14,21 @@ class CanvasController {
 		this[context].beginPath();
 		this[context].moveTo(xPos, 0);
 		this[context].lineTo(xPos, length);
-		this[context].lineWidth = 15;
 		this[context].stroke();
 	}
 
 	startVerticalLine() {
 		return setInterval(drawLineContinuous(this[context], document.body.clientWidth/2), 44);
+	}
+
+	drawExperiment(experiment) {
+		let xPos = 5;
+		const lines = experiment.lines;
+
+		lines.forEach((line) => {
+			this.drawLine(xPos, line.millis/20);
+			xPos += 15;
+		})
 	}
 
 	clearCanvas() {
@@ -29,8 +38,8 @@ class CanvasController {
 
 function drawLineContinuous(context, posX) {
 	let posY = 0;
-	const red = 150;
-	context.strokeStyle = 'rgb(0, ' + red + ', 0)';
+	const green = 150;
+	context.strokeStyle = 'rgb(0, ' + green + ', 0)';
 
 	return () => {
 		context.beginPath();

@@ -11,6 +11,10 @@ class Line {
 	toString() {
 		return '' + this[millis];
 	}
+
+	get millis() {
+		return this[millis];
+	}
 }
 
 export {Line};

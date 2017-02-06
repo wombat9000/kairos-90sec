@@ -16,6 +16,10 @@ class Experiment {
 			console.log(line.toString());
 		})
 	}
+
+	get lines() {
+		return this[lines];
+	}
 }
 
 export {Experiment};

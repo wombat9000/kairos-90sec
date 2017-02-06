@@ -20,21 +20,29 @@ class App {
 function startRun(experiment, canvasController) {
 	let drawingIntervalId, start, elapsedMillis;
 
+	let state = 0;
+
 	const spaceBarPress = function (keyCode) {
 		return keyCode === 32;
 	};
 
 	return (event) => {
 		if(spaceBarPress(event.keyCode)) {
-			if (drawingIntervalId === undefined) {
+			if (state === 0) {
 				start = new Date().getTime();
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
-			} else {
+				state = 1;
+			} else if (state === 1) {
 				elapsedMillis = new Date().getTime() - start;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
 				experiment.addLine(new Line(elapsedMillis));
+				state = 2;
+			} else if (state === 2) {
+				canvasController.clearCanvas();
+				canvasController.drawExperiment(experiment);
+				state = 0;
 			}
 		}
 	}
