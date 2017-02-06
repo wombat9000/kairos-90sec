@@ -8,6 +8,30 @@ const canvasController = Symbol();
 class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
+
+		document.addEventListener('keyup', startExperiment(this[canvasController]))
+	}
+}
+
+function startExperiment(canvasController) {
+	const spaceBarPress = function (event) {
+		return event.keyCode === 32;
+	};
+
+	let drawingIntervalId;
+
+	return (event) => {
+		if(spaceBarPress(event)) {
+			console.log("keyup event:", event.keyCode);
+
+			if (drawingIntervalId === undefined) {
+				canvasController.clearCanvas();
+				drawingIntervalId = canvasController.startVerticalLine();
+			} else {
+				clearInterval(drawingIntervalId);
+				drawingIntervalId = undefined;
+			}
+		}
 	}
 }
 
