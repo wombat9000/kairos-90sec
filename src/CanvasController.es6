@@ -3,7 +3,7 @@
 import Symbol from 'es6-symbol';
 const context = Symbol();
 
-export class CanvasController {
+class CanvasController {
 	constructor(canvas) {
 		this[context] = canvas.getContext('2d');
 	}
@@ -15,10 +15,6 @@ export class CanvasController {
 		this[context].lineWidth = 15;
 		this[context].stroke();
 	}
-
-	quack() {
-		console.log("moo");
-	}
 }
 
-// export {CanvasController};
+export {CanvasController};

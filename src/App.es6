@@ -8,7 +8,6 @@ const canvasController = Symbol();
 class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
-		this[canvasController].quack();
 	}
 }
 
