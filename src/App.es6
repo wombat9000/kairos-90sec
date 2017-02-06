@@ -1,20 +1,24 @@
 'use strict';
 
 import {CanvasController} from './CanvasController.es6';
+import {Experiment} from './Experiment.es6';
+import {Line} from './Line.es6';
 import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
+const experiment = Symbol();
 
 class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
+		this[experiment] = new Experiment();
 
-		document.addEventListener('keyup', startExperiment(this[canvasController]))
+		document.addEventListener('keyup', startRun(this[experiment], this[canvasController]))
 	}
 }
 
-function startExperiment(canvasController) {
-	let drawingIntervalId, start, elapsedSeconds;
+function startRun(experiment, canvasController) {
+	let drawingIntervalId, start, elapsedMillis;
 
 	const spaceBarPress = function (keyCode) {
 		return keyCode === 32;
@@ -27,11 +31,10 @@ function startExperiment(canvasController) {
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
 			} else {
-				elapsedSeconds = (new Date().getTime() - start)/1000;
+				elapsedMillis = new Date().getTime() - start;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
-
-				console.log(elapsedSeconds);
+				experiment.addLine(new Line(elapsedMillis));
 			}
 		}
 	}
