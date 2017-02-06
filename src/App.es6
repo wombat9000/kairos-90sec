@@ -14,16 +14,14 @@ class App {
 }
 
 function startExperiment(canvasController) {
-	const spaceBarPress = function (event) {
-		return event.keyCode === 32;
-	};
-
 	let drawingIntervalId;
 
-	return (event) => {
-		if(spaceBarPress(event)) {
-			console.log("keyup event:", event.keyCode);
+	const spaceBarPress = function (keyCode) {
+		return keyCode === 32;
+	};
 
+	return (event) => {
+		if(spaceBarPress(event.keyCode)) {
 			if (drawingIntervalId === undefined) {
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
