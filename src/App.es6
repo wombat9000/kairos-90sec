@@ -14,7 +14,7 @@ class App {
 }
 
 function startExperiment(canvasController) {
-	let drawingIntervalId;
+	let drawingIntervalId, start, elapsedSeconds;
 
 	const spaceBarPress = function (keyCode) {
 		return keyCode === 32;
@@ -23,11 +23,15 @@ function startExperiment(canvasController) {
 	return (event) => {
 		if(spaceBarPress(event.keyCode)) {
 			if (drawingIntervalId === undefined) {
+				start = new Date().getTime();
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
 			} else {
+				elapsedSeconds = (new Date().getTime() - start)/1000;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
+
+				console.log(elapsedSeconds);
 			}
 		}
 	}
