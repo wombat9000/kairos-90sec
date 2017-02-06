@@ -10,8 +10,10 @@ class CanvasController {
 		this[context] = _canvas.getContext('2d');
 	}
 
-	drawLine(xPos, length) {
+	drawLine(xPos, length, color) {
+		console.log(color);
 		this[context].beginPath();
+		this[context].strokeStyle = color;
 		this[context].moveTo(xPos, 0);
 		this[context].lineTo(xPos, length);
 		this[context].stroke();
@@ -26,8 +28,8 @@ class CanvasController {
 		const lines = experiment.lines;
 
 		lines.forEach((line) => {
-			this.drawLine(xPos, line.millis/20);
-			xPos += 15;
+			this.drawLine(xPos, line.millis/20, line.color);
+			xPos += 5;
 		})
 	}
 
