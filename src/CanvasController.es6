@@ -11,7 +11,6 @@ class CanvasController {
 	}
 
 	drawLine(xPos, length, color) {
-		console.log(color);
 		this[context].beginPath();
 		this[context].strokeStyle = color;
 		this[context].moveTo(xPos, 0);

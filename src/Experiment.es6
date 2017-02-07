@@ -11,10 +11,6 @@ class Experiment {
 
 	addLine(line) {
 		this[lines].push(line);
-
-		this[lines].forEach((line) => {
-			console.log(line.toString());
-		})
 	}
 
 	get lines() {

@@ -1,6 +1,8 @@
 'use strict';
 
+import {Utils} from '../src/Utils.es6';
 import Symbol from 'es6-symbol';
+
 const millis = Symbol();
 
 class Line {
@@ -14,14 +16,6 @@ class Line {
 
 	get millis() {
 		return this[millis];
-	}
-
-	interpolate(base, target, ratio) {
-		console.log('base', base, 'target', target, 'ratio', ratio);
-
-		const interpolated = base + (target-base) * ratio;
-		console.log('result', interpolated);
-		return Math.round(interpolated);
 	}
 
 	get color() {
@@ -39,7 +33,6 @@ class Line {
 
 		const miss = Math.round(Math.abs(target - this[millis]));
 
-		console.log('offset', maxOffset, 'miss', miss);
 
 		if (maxOffset < miss)  {
 			return maxRed;
@@ -47,9 +40,9 @@ class Line {
 
 		const ratio = miss/maxOffset;
 
-		const red = this.interpolate(redTarget, redMiss, ratio);
-		const green = this.interpolate(greenTarget, greenMiss, ratio);
-		const blue = this.interpolate(blueTarget, blueMiss, ratio);
+		const red = Utils.interpolate(redTarget, redMiss, ratio);
+		const green = Utils.interpolate(greenTarget, greenMiss, ratio);
+		const blue = Utils.interpolate(blueTarget, blueMiss, ratio);
 
 		return 'rgb('+ red +', ' + green +', ' + blue + ')';
 	}
