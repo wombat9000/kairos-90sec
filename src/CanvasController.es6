@@ -30,10 +30,10 @@ class CanvasController {
 
 	drawExperiment(experiment) {
 		let xPos = 5;
-		const lines = experiment.estimates;
+		const estimates = experiment.estimates;
 
-		lines.forEach((line) => {
-			this.drawLine(xPos, line.millis/20, line.color);
+		estimates.forEach((estimate) => {
+			this.drawLine(xPos, estimate.millis/20, estimate.color);
 			xPos += resultsLineSpacing;
 		})
 	}
