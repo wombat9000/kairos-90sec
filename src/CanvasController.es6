@@ -8,7 +8,7 @@ const resultsLineSpacing = 5;
 const top = 0;
 const growthInterval = 44;
 const centerOfScreen = document.body.clientWidth/2;
-const lineColor = 'rgb(0, 150, 0)';
+const white = 'rgb(255, 255, 255)';
 
 class CanvasController {
 	constructor(_canvas) {
@@ -45,7 +45,7 @@ class CanvasController {
 
 function drawLineContinuous(context, posX) {
 	let posY = top;
-	context.strokeStyle = lineColor;
+	context.strokeStyle = white;
 
 	return () => {
 		context.beginPath();

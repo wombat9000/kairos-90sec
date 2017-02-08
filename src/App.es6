@@ -1,7 +1,6 @@
 'use strict';
 
 import {CanvasController} from './CanvasController.es6';
-import {Experiment} from './Experiment.es6';
 import {Estimate} from './Estimate.es6';
 import {StopWatch} from './StopWatch.es6';
 import {ExperimentRepository} from './localstorage/ExperimentRepository.es6';

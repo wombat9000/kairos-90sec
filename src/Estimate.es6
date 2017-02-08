@@ -19,31 +19,42 @@ class Estimate {
 	}
 
 	get color() {
-		const redMiss = 191;
-		const greenMiss = 114;
-		const blueMiss = 48;
-		const redTarget = 29;
-		const greenTarget = 112;
-		const blueTarget = 116;
+		const redUnder = 191;
+		const greenUnder = 114;
+		const blueUnder = 48;
+		const redOver = 29;
+		const greenOver = 112;
+		const blueOver = 116;
 
 		const maxRed = 'rgb(191, 114, 48)';
+		const maxPetrol = 'rgb(29, 112, 116)';
 
-		const maxOffset = 5000;
+		const maxMiss = 5000;
 		const target = 10000;
 
 		const miss = Math.round(Math.abs(target - this[millis]));
+		const ratio = miss/maxMiss;
 
-		if (maxOffset < miss)  {
-			return maxRed;
+		if (this[millis] > target) {
+			// interpolate petrol
+			if (miss > maxMiss) {
+				return maxPetrol;
+			}
+			const red = Utils.interpolate(255, redOver, ratio);
+			const green = Utils.interpolate(255, greenOver, ratio);
+			const blue = Utils.interpolate(255, blueOver, ratio);
+			return 'rgb('+ red +', ' + green +', ' + blue + ')';
+
+		} else {
+			// interpolate red
+			if (miss > maxMiss) {
+				return maxRed;
+			}
+			const red = Utils.interpolate(255, redUnder, ratio);
+			const green = Utils.interpolate(255, greenUnder, ratio);
+			const blue = Utils.interpolate(255, blueUnder, ratio);
+			return 'rgb('+ red +', ' + green +', ' + blue + ')';
 		}
-
-		const ratio = miss/maxOffset;
-
-		const red = Utils.interpolate(redTarget, redMiss, ratio);
-		const green = Utils.interpolate(greenTarget, greenMiss, ratio);
-		const blue = Utils.interpolate(blueTarget, blueMiss, ratio);
-
-		return 'rgb('+ red +', ' + green +', ' + blue + ')';
 	}
 }
 
