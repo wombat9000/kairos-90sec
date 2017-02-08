@@ -10,11 +10,7 @@ class StopWatch {
 	}
 
 	stop() {
-		const end = new Date().getTime();
-		const elapsedMillis = end - this[start];
-		this[start] = 0;
-
-		return elapsedMillis;
+		return new Date().getTime() - this[start];
 	}
 }
 
