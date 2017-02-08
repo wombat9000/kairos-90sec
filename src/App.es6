@@ -3,22 +3,33 @@
 import {CanvasController} from './CanvasController.es6';
 import {Experiment} from './Experiment.es6';
 import {Estimate} from './Estimate.es6';
-import Symbol from 'es6-symbol';
 import {StopWatch} from './StopWatch.es6';
+import {ExperimentRepository} from './localstorage/ExperimentRepository.es6';
+import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
 const experiment = Symbol();
+const experimentRepository = Symbol();
 
 class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
-		this[experiment] = new Experiment();
+		this[experimentRepository] = new ExperimentRepository();
 
-		document.addEventListener('keyup', toggleAppState(this[experiment], this[canvasController]))
+		if(this[experimentRepository].findByKey('1')) {
+			console.log('found some experiment :)');
+			this[experiment] = this[experimentRepository].findByKey('1');
+
+		} else {
+			console.log('found no experiment :(');
+			this[experiment] = new Experiment();
+		}
+
+		document.addEventListener('keyup', toggleAppState(this[experiment], this[canvasController], this[experimentRepository]))
 	}
 }
 
-function toggleAppState(experiment, canvasController) {
+function toggleAppState(experiment, canvasController, experimentRepository) {
 	const stopWatch = new StopWatch();
 	const spacebar = 32;
 	const waitingForNewEstimate = 0;
@@ -40,6 +51,7 @@ function toggleAppState(experiment, canvasController) {
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
 				experiment.addEstimate(new Estimate(elapsedMillis));
+				experimentRepository.save(experiment);
 				currentState = showEstimates;
 			} else if (currentState === showEstimates) {
 				canvasController.clearCanvas();

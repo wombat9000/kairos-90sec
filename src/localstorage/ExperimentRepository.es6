@@ -4,13 +4,16 @@ import {Experiment} from '../Experiment.es6';
 
 class ExperimentRepository {
 
-	create(experiment) {
-
+	save(experiment) {
 		localStorage.setItem('1', experiment.estimates);
 	}
 
 	findByKey(key) {
 		const experimentAsString = localStorage.getItem(key);
+
+		if (experimentAsString === null) {
+			return null;
+		}
 		const estimatesArray = experimentAsString.split(',');
 		const experiment = new Experiment();
 

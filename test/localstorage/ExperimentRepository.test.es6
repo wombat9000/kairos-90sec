@@ -17,7 +17,7 @@ describe('ExperimentRepository', () => {
 
 		const testee = new ExperimentRepository();
 
-		testee.create(someExperiment);
+		testee.save(someExperiment);
 
 		const result = testee.findByKey('1');
 
@@ -35,7 +35,7 @@ describe('ExperimentRepository', () => {
 
 		const testee = new ExperimentRepository();
 
-		testee.create(someExperiment);
+		testee.save(someExperiment);
 
 		const result = testee.findByKey('1');
 
