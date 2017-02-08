@@ -13,11 +13,11 @@ class App {
 		this[canvasController] = setupCanvasController(appDom);
 		this[experiment] = new Experiment();
 
-		document.addEventListener('keyup', startRun(this[experiment], this[canvasController]))
+		document.addEventListener('keyup', toggleAppState(this[experiment], this[canvasController]))
 	}
 }
 
-function startRun(experiment, canvasController) {
+function toggleAppState(experiment, canvasController) {
 	let drawingIntervalId, start, elapsedMillis;
 
 	let state = 0;
