@@ -29,12 +29,12 @@ function toggleAppState(experiment, canvasController) {
 	return (event) => {
 		if(event.keyCode === spacebar) {
 			if (currentState === waitingForNewEstimate) {
-				start = new Date().getTime();
+				start = takeTime();
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
 				currentState = estimateInProgress;
 			} else if (currentState === estimateInProgress) {
-				elapsedMillis = new Date().getTime() - start;
+				elapsedMillis = takeTime() - start;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
 				experiment.addEstimate(new Estimate(elapsedMillis));
@@ -42,10 +42,14 @@ function toggleAppState(experiment, canvasController) {
 			} else if (currentState === showEstimates) {
 				canvasController.clearCanvas();
 				canvasController.drawExperiment(experiment);
-				currentState = 0;
+				currentState = waitingForNewEstimate;
 			}
 		}
 	}
+}
+
+function takeTime() {
+	return new Date().getTime();
 }
 
 function setupCanvasController(appDom) {
