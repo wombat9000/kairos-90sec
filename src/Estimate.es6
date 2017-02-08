@@ -5,7 +5,7 @@ import Symbol from 'es6-symbol';
 
 const millis = Symbol();
 
-class Result {
+class Estimate {
 	constructor(_millis) {
 		this[millis] = _millis;
 	}
@@ -47,4 +47,4 @@ class Result {
 	}
 }
 
-export {Result};
+export {Estimate};

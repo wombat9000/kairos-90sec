@@ -2,7 +2,7 @@
 
 import {CanvasController} from './CanvasController.es6';
 import {Experiment} from './Experiment.es6';
-import {Result} from './Result.es6';
+import {Estimate} from './Estimate.es6';
 import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
@@ -18,31 +18,31 @@ class App {
 }
 
 function toggleAppState(experiment, canvasController) {
+	const spacebar = 32;
+	const waitingForNewEstimate = 0;
+	const estimateInProgress = 1;
+	const showEstimates = 2;
+
 	let drawingIntervalId, start, elapsedMillis;
-
-	let state = 0;
-
-	const spaceBarPress = function (keyCode) {
-		return keyCode === 32;
-	};
+	let currentState = waitingForNewEstimate;
 
 	return (event) => {
-		if(spaceBarPress(event.keyCode)) {
-			if (state === 0) {
+		if(event.keyCode === spacebar) {
+			if (currentState === waitingForNewEstimate) {
 				start = new Date().getTime();
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
-				state = 1;
-			} else if (state === 1) {
+				currentState = estimateInProgress;
+			} else if (currentState === estimateInProgress) {
 				elapsedMillis = new Date().getTime() - start;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
-				experiment.addLine(new Result(elapsedMillis));
-				state = 2;
-			} else if (state === 2) {
+				experiment.addEstimate(new Estimate(elapsedMillis));
+				currentState = showEstimates;
+			} else if (currentState === showEstimates) {
 				canvasController.clearCanvas();
 				canvasController.drawExperiment(experiment);
-				state = 0;
+				currentState = 0;
 			}
 		}
 	}

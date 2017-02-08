@@ -30,7 +30,7 @@ class CanvasController {
 
 	drawExperiment(experiment) {
 		let xPos = 5;
-		const lines = experiment.lines;
+		const lines = experiment.estimates;
 
 		lines.forEach((line) => {
 			this.drawLine(xPos, line.millis/20, line.color);

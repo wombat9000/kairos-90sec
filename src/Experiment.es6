@@ -2,19 +2,19 @@
 
 import Symbol from 'es6-symbol';
 
-const lines = Symbol();
+const estimates = Symbol();
 
 class Experiment {
 	constructor() {
-		this[lines] = [];
+		this[estimates] = [];
 	}
 
-	addLine(line) {
-		this[lines].push(line);
+	addEstimate(estimate) {
+		this[estimates].push(estimate);
 	}
 
-	get lines() {
-		return this[lines];
+	get estimates() {
+		return this[estimates];
 	}
 }
 

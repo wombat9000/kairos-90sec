@@ -1,12 +1,12 @@
 'use strict';
 
-import {Result} from '../src/Result.es6';
+import {Estimate} from '../src/Estimate.es6';
 
 describe('Result', function () {
 	let testee;
 
 	beforeEach(() => {
 
-		testee = new Result(10);
+		testee = new Estimate(10);
 	});
 });
