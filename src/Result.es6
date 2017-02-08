@@ -5,7 +5,7 @@ import Symbol from 'es6-symbol';
 
 const millis = Symbol();
 
-class Line {
+class Result {
 	constructor(_millis) {
 		this[millis] = _millis;
 	}
@@ -33,7 +33,6 @@ class Line {
 
 		const miss = Math.round(Math.abs(target - this[millis]));
 
-
 		if (maxOffset < miss)  {
 			return maxRed;
 		}
@@ -48,4 +47,4 @@ class Line {
 	}
 }
 
-export {Line};
+export {Result};

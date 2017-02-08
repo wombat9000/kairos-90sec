@@ -2,7 +2,7 @@
 
 import {CanvasController} from './CanvasController.es6';
 import {Experiment} from './Experiment.es6';
-import {Line} from './Line.es6';
+import {Result} from './Result.es6';
 import Symbol from 'es6-symbol';
 
 const canvasController = Symbol();
@@ -37,7 +37,7 @@ function toggleAppState(experiment, canvasController) {
 				elapsedMillis = new Date().getTime() - start;
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
-				experiment.addLine(new Line(elapsedMillis));
+				experiment.addLine(new Result(elapsedMillis));
 				state = 2;
 			} else if (state === 2) {
 				canvasController.clearCanvas();
