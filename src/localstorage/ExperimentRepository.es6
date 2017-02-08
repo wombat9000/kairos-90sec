@@ -11,11 +11,13 @@ class ExperimentRepository {
 
 	findByKey(key) {
 		const experimentAsString = localStorage.getItem(key);
-
-		const experimentAsInteger = parseInt(experimentAsString);
-
+		const estimatesArray = experimentAsString.split(',');
 		const experiment = new Experiment();
-		experiment.addEstimate(new Estimate(experimentAsInteger));
+
+		estimatesArray.forEach((estimateString) => {
+			const experimentAsInteger = parseInt(estimateString);
+			experiment.addEstimate(new Estimate(experimentAsInteger));
+		});
 
 		return experiment;
 	}
