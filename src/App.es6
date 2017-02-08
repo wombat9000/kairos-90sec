@@ -4,6 +4,7 @@ import {CanvasController} from './CanvasController.es6';
 import {Experiment} from './Experiment.es6';
 import {Estimate} from './Estimate.es6';
 import Symbol from 'es6-symbol';
+import {StopWatch} from './StopWatch.es6';
 
 const canvasController = Symbol();
 const experiment = Symbol();
@@ -18,23 +19,24 @@ class App {
 }
 
 function toggleAppState(experiment, canvasController) {
+	const stopWatch = new StopWatch();
 	const spacebar = 32;
 	const waitingForNewEstimate = 0;
 	const estimateInProgress = 1;
 	const showEstimates = 2;
 
-	let drawingIntervalId, start, elapsedMillis;
+	let drawingIntervalId, elapsedMillis;
 	let currentState = waitingForNewEstimate;
 
 	return (event) => {
 		if(event.keyCode === spacebar) {
 			if (currentState === waitingForNewEstimate) {
-				start = takeTime();
+				stopWatch.start();
 				canvasController.clearCanvas();
 				drawingIntervalId = canvasController.startVerticalLine();
 				currentState = estimateInProgress;
 			} else if (currentState === estimateInProgress) {
-				elapsedMillis = takeTime() - start;
+				elapsedMillis = stopWatch.stop();
 				clearInterval(drawingIntervalId);
 				drawingIntervalId = undefined;
 				experiment.addEstimate(new Estimate(elapsedMillis));
@@ -46,10 +48,6 @@ function toggleAppState(experiment, canvasController) {
 			}
 		}
 	}
-}
-
-function takeTime() {
-	return new Date().getTime();
 }
 
 function setupCanvasController(appDom) {
