@@ -19,7 +19,7 @@ describe('ExperimentRepository', () => {
 
 		testee.save(someExperiment);
 
-		const result = testee.findByKey('1');
+		const result = testee.findOrNew('1');
 
 		expect(result.estimates.length).to.equal(1);
 		expect(result.estimates[0].millis).to.equal(someExperiment.estimates[0].millis);
@@ -37,10 +37,18 @@ describe('ExperimentRepository', () => {
 
 		testee.save(someExperiment);
 
-		const result = testee.findByKey('1');
+		const result = testee.findOrNew('1');
 
 		expect(result.estimates.length).to.equal(2);
 		expect(result.estimates[0].millis).to.equal(someExperiment.estimates[0].millis);
 		expect(result.estimates[1].millis).to.equal(someExperiment.estimates[1].millis);
+	});
+
+	it('should return an empty experiment if nothing was found', () => {
+		const testee = new ExperimentRepository();
+
+		const result = testee.findOrNew('1');
+
+		expect(result.estimates.length).to.equal(0);
 	});
 });

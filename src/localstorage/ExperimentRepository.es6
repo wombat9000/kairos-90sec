@@ -8,12 +8,13 @@ class ExperimentRepository {
 		localStorage.setItem('1', experiment.estimates);
 	}
 
-	findByKey(key) {
+	findOrNew(key) {
 		const experimentAsString = localStorage.getItem(key);
 
 		if (experimentAsString === null) {
-			return null;
+			return new Experiment();
 		}
+
 		const estimatesArray = experimentAsString.split(',');
 		const experiment = new Experiment();
 

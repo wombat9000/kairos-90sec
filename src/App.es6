@@ -15,15 +15,7 @@ class App {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
 		this[experimentRepository] = new ExperimentRepository();
-
-		if(this[experimentRepository].findByKey('1')) {
-			console.log('found some experiment :)');
-			this[experiment] = this[experimentRepository].findByKey('1');
-
-		} else {
-			console.log('found no experiment :(');
-			this[experiment] = new Experiment();
-		}
+		this[experiment] = this[experimentRepository].findOrNew('1');
 
 		document.addEventListener('keyup', toggleAppState(this[experiment], this[canvasController], this[experimentRepository]))
 	}
