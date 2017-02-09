@@ -85,7 +85,7 @@ class AppController {
 				}
 
 				if (event.keyCode === t) {
-					this.proceedToNextExperiment();
+					// this.proceedToNextExperiment();
 				}
 			}
 		}
