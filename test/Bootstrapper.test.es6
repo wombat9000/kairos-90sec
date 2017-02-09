@@ -1,9 +1,9 @@
 'use strict';
 
-import {App} from '../src/App.es6';
+import {Bootstrapper} from '../src/Bootstrapper.es6';
 import * as canvasController from '../src/CanvasController.es6';
 
-describe('App', function () {
+describe('Bootstrapper', function () {
 
 	let appDomMock;
 	let createElementStub;
@@ -28,7 +28,7 @@ describe('App', function () {
 
 		createElementStub = sandbox.stub(document, 'createElement').returns(someCanvas);
 
-		new App(appDomMock);
+		new Bootstrapper(appDomMock);
 	});
 
 	afterEach(() => {

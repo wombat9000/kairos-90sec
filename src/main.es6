@@ -1,8 +1,8 @@
-import {App} from '../src/App.es6';
+import {Bootstrapper} from './Bootstrapper.es6';
 
 const appDom = document.getElementById('app');
 
-const app = new App(appDom);
+new Bootstrapper(appDom);
 
 // canvas.height = document.body.clientHeight;
 //

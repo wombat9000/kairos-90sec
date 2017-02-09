@@ -10,13 +10,13 @@ const canvasController = Symbol();
 const experiment = Symbol();
 const experimentRepository = Symbol();
 
-class App {
+class Bootstrapper {
 	constructor(appDom) {
 		this[canvasController] = setupCanvasController(appDom);
 		this[experimentRepository] = new ExperimentRepository();
 		this[experiment] = this[experimentRepository].findOrNew('1');
 
-		document.addEventListener('keyup', inputListener(this[experiment], this[canvasController], this[experimentRepository]))
+		document.addEventListener('keyup', inputListener(this[experiment], this[canvasController], this[experimentRepository]));
 	}
 }
 
@@ -61,4 +61,4 @@ function setupCanvasController(appDom) {
 	return new CanvasController(canvas);
 }
 
-export {App};
+export {Bootstrapper};
