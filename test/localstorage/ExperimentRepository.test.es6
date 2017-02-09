@@ -55,10 +55,14 @@ describe('ExperimentRepository', () => {
 		someExperiment.addEstimate(anotherEstimate);
 
 		testee.save(someExperiment);
+
+		let result = localStorage.getItem('1');
+		expect(result).to.equal('10,15');
+
 		testee.deleteAll();
 
-		const result = testee.findOrNew('1');
+		result = localStorage.getItem('1');
 
-		expect(result.estimates.length).to.equal(0);
+		expect(result).to.equal(null);
 	});
 });
