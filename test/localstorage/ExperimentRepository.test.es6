@@ -5,8 +5,11 @@ import {Experiment} from '../../src/Experiment.es6';
 
 describe('ExperimentRepository', () => {
 
+	let testee;
+
 	beforeEach(() => {
 		localStorage.clear();
+		testee = new ExperimentRepository();
 	});
 
 	it('should store and retrieve an experiment with one estimate', function () {
@@ -14,8 +17,6 @@ describe('ExperimentRepository', () => {
 		const someExperiment = new Experiment();
 
 		someExperiment.addEstimate(someEstimate);
-
-		const testee = new ExperimentRepository();
 
 		testee.save(someExperiment);
 
@@ -29,14 +30,10 @@ describe('ExperimentRepository', () => {
 		const someEstimate = new Estimate(10);
 		const anotherEstimate = new Estimate(15);
 		const someExperiment = new Experiment();
-
 		someExperiment.addEstimate(someEstimate);
 		someExperiment.addEstimate(anotherEstimate);
 
-		const testee = new ExperimentRepository();
-
 		testee.save(someExperiment);
-
 		const result = testee.findOrNew('1');
 
 		expect(result.estimates.length).to.equal(2);
@@ -44,7 +41,7 @@ describe('ExperimentRepository', () => {
 		expect(result.estimates[1].millis).to.equal(someExperiment.estimates[1].millis);
 	});
 
-	it('should return an empty experiment if nothing was found', () => {
+	it('should return an empty experiment if nothing was found', function () {
 		const testee = new ExperimentRepository();
 
 		const result = testee.findOrNew('1');
