@@ -16,11 +16,11 @@ class App {
 		this[experimentRepository] = new ExperimentRepository();
 		this[experiment] = this[experimentRepository].findOrNew('1');
 
-		document.addEventListener('keyup', toggleAppState(this[experiment], this[canvasController], this[experimentRepository]))
+		document.addEventListener('keyup', inputListener(this[experiment], this[canvasController], this[experimentRepository]))
 	}
 }
 
-function toggleAppState(experiment, canvasController, experimentRepository) {
+function inputListener(experiment, canvasController, experimentRepository) {
 	const stopWatch = new StopWatch();
 	const spacebar = 32;
 	const waitingForNewEstimate = 0;

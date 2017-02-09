@@ -1,6 +1,6 @@
 'use strict';
 
-class Utils {
+class Interpolator {
 
 	static interpolate(from, to, distanceRatio) {
 		const interpolated = from + (to-from) * distanceRatio;
@@ -9,4 +9,4 @@ class Utils {
 
 }
 
-export {Utils};
+export {Interpolator};

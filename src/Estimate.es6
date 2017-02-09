@@ -1,6 +1,6 @@
 'use strict';
 
-import {Utils} from '../src/Utils.es6';
+import {Interpolator} from './Interpolator.es6';
 import Symbol from 'es6-symbol';
 
 const millis = Symbol();
@@ -40,9 +40,9 @@ class Estimate {
 			if (miss > maxMiss) {
 				return maxPetrol;
 			}
-			const red = Utils.interpolate(255, redOver, ratio);
-			const green = Utils.interpolate(255, greenOver, ratio);
-			const blue = Utils.interpolate(255, blueOver, ratio);
+			const red = Interpolator.interpolate(255, redOver, ratio);
+			const green = Interpolator.interpolate(255, greenOver, ratio);
+			const blue = Interpolator.interpolate(255, blueOver, ratio);
 			return 'rgb('+ red +', ' + green +', ' + blue + ')';
 
 		} else {
@@ -50,9 +50,9 @@ class Estimate {
 			if (miss > maxMiss) {
 				return maxRed;
 			}
-			const red = Utils.interpolate(255, redUnder, ratio);
-			const green = Utils.interpolate(255, greenUnder, ratio);
-			const blue = Utils.interpolate(255, blueUnder, ratio);
+			const red = Interpolator.interpolate(255, redUnder, ratio);
+			const green = Interpolator.interpolate(255, greenUnder, ratio);
+			const blue = Interpolator.interpolate(255, blueUnder, ratio);
 			return 'rgb('+ red +', ' + green +', ' + blue + ')';
 		}
 	}
