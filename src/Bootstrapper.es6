@@ -10,9 +10,20 @@ const canvasController = Symbol();
 const experiment = Symbol();
 const experimentRepository = Symbol();
 
+let createCanvas = function () {
+	const canvas = document.createElement('canvas');
+	canvas.width = document.body.clientWidth;
+	canvas.height = document.body.clientHeight;
+	return canvas;
+};
+
 class Bootstrapper {
 	constructor(appDom) {
-		this[canvasController] = setupCanvasController(appDom);
+		const canvas = createCanvas();
+
+		appDom.appendChild(canvas);
+
+		this[canvasController] =  new CanvasController(canvas);
 		this[experimentRepository] = new ExperimentRepository();
 		this[experiment] = this[experimentRepository].findOrNew('1');
 
@@ -51,14 +62,6 @@ function inputListener(experiment, canvasController, experimentRepository) {
 			}
 		}
 	}
-}
-
-function setupCanvasController(appDom) {
-	const canvas = document.createElement('canvas');
-	canvas.width = document.body.clientWidth;
-	canvas.height = document.body.clientHeight;
-	appDom.appendChild(canvas);
-	return new CanvasController(canvas);
 }
 
 export {Bootstrapper};
