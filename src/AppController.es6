@@ -44,6 +44,7 @@ class AppController {
 	clearStorage() {
 		this[experimentRepository].deleteAll();
 		this[activeExperiment] = this[experimentRepository].findOrNew('1');
+		this[canvasController].clearCanvas();
 	}
 
 	proceedToNextExperiment() {
