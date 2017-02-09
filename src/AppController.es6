@@ -38,7 +38,7 @@ class AppController {
 
 	addEstimateToCurrentExperiment(estimate) {
 		this[activeExperiment].addEstimate(estimate);
-		this[experimentRepository].save(this[activeExperiment]);
+		this[experimentRepository].saveExperiment(this[activeExperiment]);
 	}
 
 	clearStorage() {

@@ -18,7 +18,7 @@ describe('ExperimentRepository', () => {
 
 		someExperiment.addEstimate(someEstimate);
 
-		testee.save(someExperiment);
+		testee.saveExperiment(someExperiment);
 
 		const result = testee.findOrNew('1');
 
@@ -33,7 +33,7 @@ describe('ExperimentRepository', () => {
 		someExperiment.addEstimate(someEstimate);
 		someExperiment.addEstimate(anotherEstimate);
 
-		testee.save(someExperiment);
+		testee.saveExperiment(someExperiment);
 		const result = testee.findOrNew('1');
 
 		expect(result.estimates.length).to.equal(2);
@@ -54,7 +54,7 @@ describe('ExperimentRepository', () => {
 		someExperiment.addEstimate(someEstimate);
 		someExperiment.addEstimate(anotherEstimate);
 
-		testee.save(someExperiment);
+		testee.saveExperiment(someExperiment);
 
 		let result = localStorage.getItem('1');
 		expect(result).to.equal('10,15');
@@ -66,13 +66,12 @@ describe('ExperimentRepository', () => {
 		expect(result).to.equal(null);
 	});
 
-
 	it('should add estimate to existing experiment', () => {
 		const someExperiment = new Experiment('1');
 		const someEstimate = new Estimate(10);
 		someExperiment.addEstimate(someEstimate);
 
-		testee.save(someExperiment);
+		testee.saveExperiment(someExperiment);
 		let result = localStorage.getItem('1');
 		expect(result).to.equal('10');
 
@@ -81,5 +80,17 @@ describe('ExperimentRepository', () => {
 
 		result = localStorage.getItem('1');
 		expect(result).to.equal('10,15');
+	});
+
+	it('should add to all estimates', () => {
+		testee.addToAllEstimates(new Estimate(10));
+		let result = testee.getAllEstimates();
+		expect(result.estimates.length).to.equal(1);
+		expect(result.estimates[0].millis).to.equal(10);
+
+		testee.addToAllEstimates(new Estimate(12));
+		result = testee.getAllEstimates();
+		expect(result.estimates.length).to.equal(2);
+		expect(result.estimates[1].millis).to.equal(12);
 	});
 });

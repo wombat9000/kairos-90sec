@@ -4,7 +4,7 @@ import {Experiment} from '../Experiment.es6';
 
 class ExperimentRepository {
 
-	save(experiment) {
+	saveExperiment(experiment) {
 		localStorage.setItem(experiment.id, experiment.estimates);
 	}
 
@@ -29,7 +29,18 @@ class ExperimentRepository {
 	addEstimate(experimentKey, estimate) {
 		const experiment = this.findOrNew(experimentKey);
 		experiment.addEstimate(estimate);
-		this.save(experiment);
+		this.saveExperiment(experiment);
+		this.addToAllEstimates(estimate);
+	}
+
+	addToAllEstimates(estimate) {
+		const experiment = this.findOrNew('allEstimates');
+		experiment.addEstimate(estimate);
+		this.saveExperiment(experiment);
+	}
+
+	getAllEstimates() {
+		return this.findOrNew('allEstimates');
 	}
 
 	deleteAll() {
