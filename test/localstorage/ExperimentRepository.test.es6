@@ -14,7 +14,7 @@ describe('ExperimentRepository', () => {
 
 	it('should store and retrieve an experiment with one estimate', function () {
 		const someEstimate = new Estimate(10);
-		const someExperiment = new Experiment();
+		const someExperiment = new Experiment('1');
 
 		someExperiment.addEstimate(someEstimate);
 
@@ -29,7 +29,7 @@ describe('ExperimentRepository', () => {
 	it('should store and retrieve an experiment with two estimates', function () {
 		const someEstimate = new Estimate(10);
 		const anotherEstimate = new Estimate(15);
-		const someExperiment = new Experiment();
+		const someExperiment = new Experiment('1');
 		someExperiment.addEstimate(someEstimate);
 		someExperiment.addEstimate(anotherEstimate);
 
@@ -50,7 +50,7 @@ describe('ExperimentRepository', () => {
 	it('should delete all experiments', () => {
 		const someEstimate = new Estimate(10);
 		const anotherEstimate = new Estimate(15);
-		const someExperiment = new Experiment();
+		const someExperiment = new Experiment('1');
 		someExperiment.addEstimate(someEstimate);
 		someExperiment.addEstimate(anotherEstimate);
 

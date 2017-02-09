@@ -46,9 +46,15 @@ class AppController {
 		this[activeExperiment] = this[experimentRepository].findOrNew('1');
 	}
 
+	proceedToNextExperiment() {
+		const nextId = '' + (parseInt(this[activeExperiment].id) + 1);
+		this[activeExperiment] = this[experimentRepository].findOrNew(nextId);
+	}
+
 	inputListener() {
 		const spacebar = 32;
 		const q = 81;
+		const t = 84;
 		const waitingForNewEstimate = 0;
 		const estimateInProgress = 1;
 		const showEstimates = 2;
@@ -58,6 +64,7 @@ class AppController {
 
 		return (event) => {
 			console.log(event.keyCode);
+
 			if(event.keyCode === spacebar) {
 				if (currentState === waitingForNewEstimate) {
 					drawingIntervalId = this.startNewEstimate();
@@ -72,8 +79,14 @@ class AppController {
 				}
 			}
 
-			if (event.keyCode == q) {
-				this.clearStorage();
+			if (currentState === waitingForNewEstimate) {
+				if (event.keyCode === q) {
+					this.clearStorage();
+				}
+
+				if (event.keyCode === t) {
+					this.proceedToNextExperiment();
+				}
 			}
 		}
 	}

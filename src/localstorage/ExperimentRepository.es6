@@ -5,18 +5,18 @@ import {Experiment} from '../Experiment.es6';
 class ExperimentRepository {
 
 	save(experiment) {
-		localStorage.setItem('1', experiment.estimates);
+		localStorage.setItem(experiment.id, experiment.estimates);
 	}
 
 	findOrNew(key) {
 		const experimentAsString = localStorage.getItem(key);
 
 		if (experimentAsString === null) {
-			return new Experiment();
+			return new Experiment(key);
 		}
 
 		const estimatesArray = experimentAsString.split(',');
-		const experiment = new Experiment();
+		const experiment = new Experiment(key);
 
 		estimatesArray.forEach((estimateString) => {
 			const experimentAsInteger = parseInt(estimateString);
