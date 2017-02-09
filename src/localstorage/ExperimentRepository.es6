@@ -26,6 +26,12 @@ class ExperimentRepository {
 		return experiment;
 	}
 
+	addEstimate(experimentKey, estimate) {
+		const experiment = this.findOrNew(experimentKey);
+		experiment.addEstimate(estimate);
+		this.save(experiment);
+	}
+
 	deleteAll() {
 		localStorage.clear();
 	}

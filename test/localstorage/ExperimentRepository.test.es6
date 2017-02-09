@@ -65,4 +65,21 @@ describe('ExperimentRepository', () => {
 
 		expect(result).to.equal(null);
 	});
+
+
+	it('should add estimate to existing experiment', () => {
+		const someExperiment = new Experiment('1');
+		const someEstimate = new Estimate(10);
+		someExperiment.addEstimate(someEstimate);
+
+		testee.save(someExperiment);
+		let result = localStorage.getItem('1');
+		expect(result).to.equal('10');
+
+		const anotherEstimate = new Estimate(15);
+		testee.addEstimate('1', anotherEstimate);
+
+		result = localStorage.getItem('1');
+		expect(result).to.equal('10,15');
+	});
 });
