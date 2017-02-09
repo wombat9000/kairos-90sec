@@ -19,32 +19,48 @@ class AppController {
 		this[activeExperiment] = this[experimentRepository].findOrNew('1');
 	}
 
+	startNewEstimate() {
+		this[canvasController].clearCanvas();
+		this[stopWatch].start();
+		return this[canvasController].startVerticalLine();
+	}
+
+	concludeEstimate(estimateDrawingIntervalId) {
+		const elapsedMillis = this[stopWatch].stop();
+		clearInterval(estimateDrawingIntervalId);
+		return new Estimate(elapsedMillis);
+	}
+
+	showResults(experiment) {
+		this[canvasController].clearCanvas();
+		this[canvasController].drawExperiment(experiment);
+	}
+
+	addEstimateToCurrentExperiment(estimate) {
+		this[activeExperiment].addEstimate(estimate);
+		this[experimentRepository].save(this[activeExperiment]);
+	}
+
 	inputListener() {
 		const spacebar = 32;
 		const waitingForNewEstimate = 0;
 		const estimateInProgress = 1;
 		const showEstimates = 2;
 
-		let drawingIntervalId, elapsedMillis;
+		let drawingIntervalId;
 		let currentState = waitingForNewEstimate;
 
 		return (event) => {
 			if(event.keyCode === spacebar) {
 				if (currentState === waitingForNewEstimate) {
-					this[stopWatch].start();
-					this[canvasController].clearCanvas();
-					drawingIntervalId = this[canvasController].startVerticalLine();
+					drawingIntervalId = this.startNewEstimate();
 					currentState = estimateInProgress;
 				} else if (currentState === estimateInProgress) {
-					elapsedMillis = this[stopWatch].stop();
-					clearInterval(drawingIntervalId);
-					drawingIntervalId = undefined;
-					this[activeExperiment].addEstimate(new Estimate(elapsedMillis));
-					this[experimentRepository].save(this[activeExperiment]);
+					let estimate = this.concludeEstimate(drawingIntervalId);
+					this.addEstimateToCurrentExperiment(estimate);
 					currentState = showEstimates;
 				} else if (currentState === showEstimates) {
-					this[canvasController].clearCanvas();
-					this[canvasController].drawExperiment(this[activeExperiment]);
+					this.showResults(this[activeExperiment]);
 					currentState = waitingForNewEstimate;
 				}
 			}
