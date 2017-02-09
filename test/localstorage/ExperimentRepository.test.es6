@@ -42,7 +42,20 @@ describe('ExperimentRepository', () => {
 	});
 
 	it('should return an empty experiment if nothing was found', function () {
-		const testee = new ExperimentRepository();
+		const result = testee.findOrNew('1');
+
+		expect(result.estimates.length).to.equal(0);
+	});
+
+	it('should delete all experiments', () => {
+		const someEstimate = new Estimate(10);
+		const anotherEstimate = new Estimate(15);
+		const someExperiment = new Experiment();
+		someExperiment.addEstimate(someEstimate);
+		someExperiment.addEstimate(anotherEstimate);
+
+		testee.save(someExperiment);
+		testee.deleteAll();
 
 		const result = testee.findOrNew('1');
 

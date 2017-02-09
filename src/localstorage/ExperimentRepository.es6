@@ -25,6 +25,10 @@ class ExperimentRepository {
 
 		return experiment;
 	}
+
+	deleteAll() {
+		localStorage.clear();
+	}
 }
 
 export {ExperimentRepository};
