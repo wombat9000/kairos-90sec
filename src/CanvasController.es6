@@ -4,7 +4,7 @@ import Symbol from 'es6-symbol';
 const context = Symbol();
 const canvas = Symbol();
 
-const resultsLineSpacing = 5;
+const resultsLineSpacing = 10;
 const top = 0;
 const growthInterval = 44;
 const centerOfScreen = document.body.clientWidth/2;
@@ -46,6 +46,7 @@ class CanvasController {
 function drawLineContinuous(context, posX) {
 	let posY = top;
 	context.strokeStyle = white;
+	context.lineWidth = 7;
 
 	return () => {
 		context.beginPath();
