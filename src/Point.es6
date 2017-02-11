@@ -18,3 +18,5 @@ class Point {
 		return this[y];
 	}
 }
+
+export {Point};

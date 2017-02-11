@@ -24,6 +24,15 @@ class CanvasController {
 		this[context].stroke();
 	}
 
+	drawLine(startPoint, endPoint, lineColor) {
+		this[context].strokeStyle = lineColor;
+
+		this[context].beginPath();
+		this[context].moveTo(startPoint.x, startPoint.y);
+		this[context].lineTo(endPoint.x, endPoint.y);
+		this[context].stroke();
+	}
+
 	startVerticalLine() {
 		return setInterval(drawLineContinuous(this[context], centerOfScreen), growthInterval);
 	}
