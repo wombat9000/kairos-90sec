@@ -9,6 +9,7 @@ const resultsLineSpacing = 20;
 const top = 0;
 const growthInterval = 44;
 const centerOfScreen = document.body.clientWidth/2;
+const lineWidth = 8;
 const white = 'rgb(255, 255, 255)';
 
 class CanvasController {
@@ -32,24 +33,29 @@ class CanvasController {
 
 	drawExperiment(experiment) {
 		let lineStart, lineEnd;
-		let xPos = 5;
 		const estimates = experiment.estimates;
 
-		let numLines = 0;
+		let numLines = 1;
 
-
-
+		const xStart = centerOfScreen - (resultsLineSpacing/2) - (lineWidth/2);
+		let xPos = xStart;
 
 		estimates.forEach((estimate) => {
 
 			let maxLength = estimate.millis/20;
 			lineStart = new Point(xPos, 0);
 			lineEnd = new Point(xPos, maxLength);
-			if (numLines < 34) {
+			if (numLines < 35) {
 				this.drawLine(lineStart, lineEnd, estimate.color);
 			}
 
-			xPos += resultsLineSpacing;
+			if (numLines % 2) {
+				xPos = xStart + (Math.round(numLines/2) * resultsLineSpacing);
+			} else {
+				xPos = xStart - (Math.round(numLines/2) * resultsLineSpacing);
+			}
+
+
 			numLines++;
 		})
 	}
@@ -62,7 +68,7 @@ class CanvasController {
 function drawLineContinuous(context, posX) {
 	let posY = top;
 	context.strokeStyle = white;
-	context.lineWidth = 7;
+	context.lineWidth = lineWidth;
 
 	return () => {
 		context.beginPath();
