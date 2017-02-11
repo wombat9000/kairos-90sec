@@ -8,6 +8,8 @@ const experimentRepository = Symbol();
 const stopWatch = Symbol();
 const activeExperiment = Symbol();
 
+const maxExperiments = 34;
+
 class AppController {
 
 	constructor(_canvasController,
@@ -37,8 +39,10 @@ class AppController {
 	}
 
 	addEstimateToCurrentExperiment(estimate) {
-		this[activeExperiment].addEstimate(estimate);
-		this[experimentRepository].saveExperiment(this[activeExperiment]);
+		if(this[activeExperiment].estimates.length < maxExperiments) {
+			this[activeExperiment].addEstimate(estimate);
+			this[experimentRepository].saveExperiment(this[activeExperiment]);
+		}
 	}
 
 	clearStorage() {

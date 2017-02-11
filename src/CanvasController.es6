@@ -31,17 +31,26 @@ class CanvasController {
 	}
 
 	drawExperiment(experiment) {
-		let startPoint, endPoint;
+		let lineStart, lineEnd;
 		let xPos = 5;
 		const estimates = experiment.estimates;
 
+		let numLines = 0;
+
+
+
+
 		estimates.forEach((estimate) => {
+
 			let maxLength = estimate.millis/20;
-			startPoint = new Point(xPos, 0);
-			endPoint = new Point(xPos, maxLength);
-			this.drawLine(startPoint, endPoint, estimate.color);
+			lineStart = new Point(xPos, 0);
+			lineEnd = new Point(xPos, maxLength);
+			if (numLines < 34) {
+				this.drawLine(lineStart, lineEnd, estimate.color);
+			}
 
 			xPos += resultsLineSpacing;
+			numLines++;
 		})
 	}
 
