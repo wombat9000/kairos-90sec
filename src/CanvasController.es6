@@ -51,6 +51,13 @@ class CanvasController {
 			// gets shorter by some factor
 		const secondSegmentEnd = this.drawSecondSegment(firstSegmentEnd, estimate, lineNum);
 
+		if(lineNum < 3) {
+			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, estimate, lineNum);
+			const thirdSegmentEnd = this.drawThirdSegment(fourthSegmentEnd, estimate, lineNum);
+			this.drawFifthSegment(thirdSegmentEnd, estimate, lineNum);
+			return
+		}
+
 		// draw third segment
 			// straight down
 			// gets longer by some factor
@@ -80,9 +87,17 @@ class CanvasController {
 
 		let segmentStartCorrected;
 		if (lineNum % 2) {
-			segmentStartCorrected = new Point(segmentStart.x-1, segmentStart.y-3);
+			if(lineNum != 1){
+				segmentStartCorrected = new Point(segmentStart.x-1, segmentStart.y-3);
+			} else {
+				segmentStartCorrected = new Point(segmentStart.x, segmentStart.y-5);
+			}
 		} else {
-			segmentStartCorrected = new Point(segmentStart.x+1, segmentStart.y-3);
+			if(lineNum != 2){
+				segmentStartCorrected = new Point(segmentStart.x+1, segmentStart.y-3);
+			} else {
+				segmentStartCorrected = new Point(segmentStart.x, segmentStart.y-5);
+			}
 		}
 
 		const segmentEnd = new Point(segmentStartCorrected.x, segmentStartCorrected.y+50-numberOfLinesFromCenter*2);
@@ -97,6 +112,8 @@ class CanvasController {
 
 		if (lineNum > 2) {
 			length = length - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 3;
+		} else {
+			length += 8;
 		}
 
 		if (lineNum % 2) {
@@ -124,9 +141,17 @@ class CanvasController {
 		if (lineNum % 2) {
 			angle = 90 - diagonalAngle;
 			segmentStartCorrected = new Point(segmentStart.x-1, segmentStart.y-3);
+			if (lineNum === 1) {
+				segmentStartCorrected = new Point(segmentStart.x-3, segmentStart.y-1);
+				length += 10;
+			}
 		} else {
 			angle = 90 + diagonalAngle;
 			segmentStartCorrected = new Point(segmentStart.x+1, segmentStart.y-3);
+			if (lineNum === 2) {
+				segmentStartCorrected = new Point(segmentStart.x+3, segmentStart.y-1);
+				length += 10;
+			}
 		}
 
 		return this.drawLineDiagonal(segmentStartCorrected, angle, length, estimate.color);
@@ -135,6 +160,7 @@ class CanvasController {
 	drawThirdSegment(segmentStart, estimate, lineNum) {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 		let segmentStartCorrected;
+
 		if (lineNum % 2) {
 			segmentStartCorrected = new Point(segmentStart.x+1, segmentStart.y-3);
 		} else {
