@@ -1,6 +1,7 @@
 'use strict';
 
 import Symbol from 'es6-symbol';
+import {Point} from './Point.es6';
 const context = Symbol();
 const canvas = Symbol();
 
@@ -14,14 +15,6 @@ class CanvasController {
 	constructor(_canvas) {
 		this[canvas] = _canvas;
 		this[context] = _canvas.getContext('2d');
-	}
-
-	drawFullVerticalLine(xPos, length, color) {
-		this[context].beginPath();
-		this[context].strokeStyle = color;
-		this[context].moveTo(xPos, top);
-		this[context].lineTo(xPos, length);
-		this[context].stroke();
 	}
 
 	drawLine(startPoint, endPoint, lineColor) {
@@ -38,12 +31,16 @@ class CanvasController {
 	}
 
 	drawExperiment(experiment) {
+		let startPoint, endPoint;
 		let xPos = 5;
 		const estimates = experiment.estimates;
 
 		estimates.forEach((estimate) => {
 			let maxLength = estimate.millis/20;
-			this.drawFullVerticalLine(xPos, maxLength, estimate.color);
+			startPoint = new Point(xPos, 0);
+			endPoint = new Point(xPos, maxLength);
+			this.drawLine(startPoint, endPoint, estimate.color);
+
 			xPos += resultsLineSpacing;
 		})
 	}

@@ -25,26 +25,6 @@ describe('CanvasController', function () {
 		testee = new CanvasController(canvasMock);
 	});
 
-	describe('- draw full vertical line', function () {
-		it('starts the line at given posX', function () {
-			const posX = 10;
-			const someLength = 5;
-
-			testee.drawFullVerticalLine(posX, someLength);
-
-			expect(contextMock.moveTo).to.have.been.calledWith(posX, originY);
-		});
-
-		it('draws line with given length', function () {
-			const posX = 10;
-			const someLength = 5;
-
-			testee.drawFullVerticalLine(posX, someLength);
-
-			expect(contextMock.lineTo).to.have.been.calledWith(posX, (originY+someLength));
-		});
-	});
-
 	describe('- draw line', function () {
 		const someStartPoint = new Point(11,11);
 		const someEndPoint = new Point(99,99);
