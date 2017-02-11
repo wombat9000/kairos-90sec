@@ -17,6 +17,13 @@ class Point {
 	get y() {
 		return this[y];
 	}
+
+	distanceTo(anotherPoint) {
+		const xDistance = Math.abs(this.x - anotherPoint.x);
+		const yDistance = Math.abs(this.y - anotherPoint.y);
+
+		return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+	}
 }
 
 export {Point};

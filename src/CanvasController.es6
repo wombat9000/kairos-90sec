@@ -40,16 +40,9 @@ class CanvasController {
 		return lineEnd;
 	}
 
-	distanceBetweenPoints(somePoint, anotherPoint) {
-		const xDistance = Math.abs(somePoint.x - anotherPoint.x);
-		const yDistance = Math.abs(somePoint.y - anotherPoint.y);
-
-		const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
-
-		return distance;
-	}
-
 	drawEstimate(lineStart, estimate, lineNum) {
+		const maxLength = estimate.millis/20;
+
 		// draw first segment
 			// straight down
 			// gets shorter by some factor
@@ -214,8 +207,6 @@ class CanvasController {
 			lineNum++;
 		})
 	}
-
-
 
 	clearCanvas() {
 		this[context].clearRect(0, 0, this[canvas].width, this[canvas].height);
