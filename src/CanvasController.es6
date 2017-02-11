@@ -115,23 +115,16 @@ class CanvasController {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 		let angle;
 
-		let length = 284;
+		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
 
-		if (lineNum > 2) {
-			length = length - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 3;
+		if (lineNum % 2) {
+			angle = 90 + diagonalAngle;
 		} else {
-			length += 8;
+			angle = 90 - diagonalAngle;
 		}
 
 		if(length > remainingLength) {
 			length = remainingLength;
-		}
-
-		if (lineNum % 2) {
-			angle = 90 + diagonalAngle;
-
-		} else {
-			angle = 90 - diagonalAngle;
 		}
 
 		return this.drawLineDiagonal(segmentStart, angle, length, estimate.color);
@@ -141,22 +134,12 @@ class CanvasController {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 		let angle;
 
-		let length = 284;
-
-		if (lineNum > 2) {
-			length = length - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 3;
-		}
+		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
 
 		if (lineNum % 2) {
 			angle = 90 - diagonalAngle;
-			if (lineNum === 1) {
-				length += 10;
-			}
 		} else {
 			angle = 90 + diagonalAngle;
-			if (lineNum === 2) {
-				length += 10;
-			}
 		}
 
 		if(length > remainingLength) {
