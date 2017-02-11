@@ -7,8 +7,12 @@ const canvasController = Symbol();
 const experimentRepository = Symbol();
 const stopWatch = Symbol();
 const activeExperiment = Symbol();
+const centerOfScreen = document.body.clientWidth/2;
+const lineWidth = 8;
 
 const maxExperiments = 34;
+const resultsLineSpacing = 26;
+
 
 class AppController {
 
@@ -23,8 +27,21 @@ class AppController {
 
 	startNewEstimate() {
 		this[canvasController].clearCanvas();
+		const numLines = this[activeExperiment].estimates.length;
+		const firstX = centerOfScreen - (resultsLineSpacing/2) - (lineWidth/2);
+		let xPos;
+
+		if (numLines % 2) {
+			// right side
+			xPos = firstX + (Math.round(numLines/2) * resultsLineSpacing);
+		} else {
+			// left side
+			xPos = firstX - (Math.round(numLines/2) * resultsLineSpacing);
+		}
+
+
 		this[stopWatch].start();
-		return this[canvasController].startVerticalLine();
+		return this[canvasController].startVerticalLine(xPos);
 	}
 
 	concludeEstimate(estimateDrawingIntervalId) {

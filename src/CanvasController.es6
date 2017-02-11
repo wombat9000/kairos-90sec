@@ -226,8 +226,8 @@ class CanvasController {
 		return segmentEnd;
 	}
 
-	startVerticalLine() {
-		return setInterval(drawLineContinuous(this[context], centerOfScreen), growthInterval);
+	startVerticalLine(xPos) {
+		return setInterval(drawLineContinuous(this[context], xPos), growthInterval);
 	}
 
 	drawExperiment(experiment) {
