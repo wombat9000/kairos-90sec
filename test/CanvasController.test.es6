@@ -5,7 +5,6 @@ import {Point} from '../src/Point.es6';
 
 describe('CanvasController', function () {
 
-	const originY = 0;
 	let testee;
 	let canvasMock;
 	let contextMock;
@@ -26,13 +25,13 @@ describe('CanvasController', function () {
 	});
 
 	describe('- draw line', function () {
-		const someStartPoint = new Point(11,11);
-		const someEndPoint = new Point(99,99);
+		const someStartPoint = new Point(11, 11);
+		const someEndPoint = new Point(99, 99);
 		const someColor = 'bla';
 
 
 		it('should start line at given start point', function () {
-	        const startPoint = new Point(0 ,0);
+	        const startPoint = new Point(0, 0);
 
 	        testee.drawLine(startPoint, someEndPoint, someColor);
 
@@ -61,7 +60,26 @@ describe('CanvasController', function () {
 			expect(contextMock.beginPath).to.have.been.called;
 			expect(contextMock.stroke).to.have.been.called;
 		});
+	});
 
+	describe('- distance between two points', function () {
 
+		it('should calculate vertical distance', function () {
+			const startPoint = new Point(0, 0);
+			const endPoint = new Point(0, 1);
+
+			const result = testee.distanceBetweenPoints(startPoint, endPoint);
+
+			expect(result).to.equal(1);
+		});
+
+		it('should calculate horizontal distance', function () {
+			const startPoint = new Point(1, 0);
+			const endPoint = new Point(5, 0);
+
+			const result = testee.distanceBetweenPoints(startPoint, endPoint);
+
+			expect(result).to.equal(4);
+		});
 	});
 });

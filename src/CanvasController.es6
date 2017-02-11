@@ -29,8 +29,8 @@ class CanvasController {
 		this[context].stroke();
 	}
 
-	drawLineDiagonal(lineStart, angle, length, color) {
-		const radians = angle * Math.PI / 180;
+	drawLineDiagonal(lineStart, angleInDegrees, length, color) {
+		const radians = angleInDegrees * Math.PI / 180;
 		const xOffset = length * Math.cos(radians);
 		const yOffset = length * Math.sin(radians);
 
@@ -38,6 +38,15 @@ class CanvasController {
 		this.drawLine(lineStart, lineEnd, color);
 
 		return lineEnd;
+	}
+
+	distanceBetweenPoints(somePoint, anotherPoint) {
+		const xDistance = Math.abs(somePoint.x - anotherPoint.x);
+		const yDistance = Math.abs(somePoint.y - anotherPoint.y);
+
+		const distance = Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+
+		return distance;
 	}
 
 	drawEstimate(lineStart, estimate, lineNum) {
