@@ -41,17 +41,27 @@ class CanvasController {
 	}
 
 	drawEstimate(lineStart, estimate, lineNum) {
-		const maxLength = estimate.millis/20;
+		let remainingLength = estimate.millis/20;
 
 		// draw first segment
 			// straight down
 			// gets shorter by some factor
 		const firstSegmentEnd = this.drawFirstSegment(lineStart, estimate, lineNum);
+		remainingLength -= lineStart.distanceTo(firstSegmentEnd);
+
+		if(remainingLength <= 0) {
+			return;
+		}
 
 		// draw second segment
 			// diagonal, always same angle
 			// gets shorter by some factor
 		const secondSegmentEnd = this.drawSecondSegment(firstSegmentEnd, estimate, lineNum);
+
+		remainingLength -= firstSegmentEnd.distanceTo(secondSegmentEnd);
+		if(remainingLength <= 0) {
+			return;
+		}
 
 		if(lineNum < 3) {
 			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, estimate, lineNum);
@@ -65,12 +75,19 @@ class CanvasController {
 			// gets longer by some factor
 		const thirdSegmentEnd = this.drawThirdSegment(secondSegmentEnd, estimate, lineNum);
 
+		remainingLength -= secondSegmentEnd.distanceTo(thirdSegmentEnd);
+		if(remainingLength <= 0) {
+			return;
+		}
 
 		// draw fourth segment
 			// diagonal, counterpiece to second segment
 		const fourthSegmentEnd = this.drawFourthSegment(thirdSegmentEnd, estimate, lineNum);
 
-
+		remainingLength -= thirdSegmentEnd.distanceTo(fourthSegmentEnd);
+		if(remainingLength <= 0) {
+			return;
+		}
 		// draw fifth segment
 			// same as first
 		this.drawFifthSegment(fourthSegmentEnd, estimate, lineNum);
