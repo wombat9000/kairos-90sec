@@ -29,7 +29,7 @@ describe('CanvasController', function () {
 			const posX = 10;
 			const someLength = 5;
 
-			testee.drawLine(posX, someLength);
+			testee.drawFullVerticalLine(posX, someLength);
 
 			expect(contextMock.moveTo).to.have.been.calledWith(posX, originY);
 		});
@@ -38,7 +38,7 @@ describe('CanvasController', function () {
 			const posX = 10;
 			const someLength = 5;
 
-			testee.drawLine(posX, someLength);
+			testee.drawFullVerticalLine(posX, someLength);
 
 			expect(contextMock.lineTo).to.have.been.calledWith(posX, (originY+someLength));
 		});

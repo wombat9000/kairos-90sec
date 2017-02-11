@@ -4,7 +4,7 @@ import Symbol from 'es6-symbol';
 const context = Symbol();
 const canvas = Symbol();
 
-const resultsLineSpacing = 10;
+const resultsLineSpacing = 20;
 const top = 0;
 const growthInterval = 44;
 const centerOfScreen = document.body.clientWidth/2;
@@ -16,7 +16,7 @@ class CanvasController {
 		this[context] = _canvas.getContext('2d');
 	}
 
-	drawLine(xPos, length, color) {
+	drawFullVerticalLine(xPos, length, color) {
 		this[context].beginPath();
 		this[context].strokeStyle = color;
 		this[context].moveTo(xPos, top);
@@ -33,7 +33,8 @@ class CanvasController {
 		const estimates = experiment.estimates;
 
 		estimates.forEach((estimate) => {
-			this.drawLine(xPos, estimate.millis/20, estimate.color);
+			let maxLength = estimate.millis/20;
+			this.drawFullVerticalLine(xPos, maxLength, estimate.color);
 			xPos += resultsLineSpacing;
 		})
 	}
