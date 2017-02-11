@@ -41,7 +41,7 @@ class CanvasController {
 	}
 
 	drawEstimate(lineStart, estimate, lineNum) {
-		let remainingLength = estimate.millis/20;
+		let remainingLength = estimate.millis/15;
 
 		// draw first segment
 			// straight down
