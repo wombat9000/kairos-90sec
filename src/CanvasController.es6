@@ -42,8 +42,9 @@ class CanvasController {
 	}
 
 	drawEstimate(lineStart, estimate, lineNum) {
-		let remainingLength = estimate.millis/15;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
+
+		let remainingLength = estimate.millis/15;
 
 		// draw first segment
 			// straight down
@@ -112,10 +113,7 @@ class CanvasController {
 	}
 
 	drawSecondSegment(segmentStart, estimate, lineNum, remainingLength) {
-		const numberOfLinesFromCenter = Math.round(lineNum/2);
 		let angle;
-
-		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
 
 		if (lineNum % 2) {
 			angle = 90 + diagonalAngle;
@@ -123,18 +121,11 @@ class CanvasController {
 			angle = 90 - diagonalAngle;
 		}
 
-		if(length > remainingLength) {
-			length = remainingLength;
-		}
-
-		return this.drawLineDiagonal(segmentStart, angle, length, estimate.color);
+		return this.drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength);
 	}
 
 	drawFourthSegment(segmentStart, estimate, lineNum, remainingLength) {
-		const numberOfLinesFromCenter = Math.round(lineNum/2);
 		let angle;
-
-		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
 
 		if (lineNum % 2) {
 			angle = 90 - diagonalAngle;
@@ -142,11 +133,17 @@ class CanvasController {
 			angle = 90 + diagonalAngle;
 		}
 
+		return this.drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength);
+	}
+
+	drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength) {
+		const numberOfLinesFromCenter = Math.round(lineNum/2);
+
+		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
 		if(length > remainingLength) {
 			length = remainingLength;
 		}
-
-		return this.drawLineDiagonal(segmentStart, angle, length, estimate.color);
+		return this.drawLineDiagonal(segmentStart, angle, length, estimate.color)
 	}
 
 	startVerticalLine(xPos) {
