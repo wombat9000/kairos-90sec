@@ -5,14 +5,15 @@ import {Point} from './Point.es6';
 const context = Symbol();
 const canvas = Symbol();
 
-const resultsLineSpacing = 26;
-const top = 0;
+const LINE_SPACING = 26;
+const Y_TOP = 0;
 const growthInterval = 44;
-const centerOfScreen = document.body.clientWidth/2;
-const lineWidth = 8;
-const white = 'rgb(255, 255, 255)';
+const X_CENTER = document.body.clientWidth/2;
+const LINE_WIDTH = 8;
+const WHITE = 'rgb(255, 255, 255)';
 const diagonalAngle = 75;
-const verticalSpacing = 2;
+const VERTICAL_SPACING = 2;
+const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
 
 class CanvasController {
 	constructor(_canvas) {
@@ -41,8 +42,20 @@ class CanvasController {
 		return lineEnd;
 	}
 
-	drawEstimate(firstSegmentStart, estimate, lineNum) {
+	drawEstimate(estimate, lineNum) {
+		let xPos;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
+
+		if (lineNum % 2) {
+			// right side
+			xPos = X_START - (numberOfLinesFromCenter * LINE_SPACING);
+		} else {
+			// left side
+			xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
+		}
+
+		const firstSegmentStart = new Point(xPos, 0);
+
 
 		let remainingLength = estimate.millis/15;
 
@@ -64,7 +77,7 @@ class CanvasController {
 			if(remainingLength <= 0) {
 				return;
 			}
-			const thirdSegmentEnd = this.drawVerticalSegment(fourthSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(lineWidth+4)));
+			const thirdSegmentEnd = this.drawVerticalSegment(fourthSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(LINE_WIDTH+4)));
 			remainingLength -= fourthSegmentEnd.distanceTo(thirdSegmentEnd);
 			if(remainingLength <= 0) {
 				return;
@@ -73,7 +86,7 @@ class CanvasController {
 			return
 		}
 
-		const thirdSegmentEnd = this.drawVerticalSegment(secondSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(lineWidth+4)));
+		const thirdSegmentEnd = this.drawVerticalSegment(secondSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(LINE_WIDTH+4)));
 		remainingLength -= secondSegmentEnd.distanceTo(thirdSegmentEnd);
 		if(remainingLength <= 0) {
 			return;
@@ -123,7 +136,7 @@ class CanvasController {
 	drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength) {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
-		let segmentLength = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
+		let segmentLength = 284 - (LINE_SPACING * numberOfLinesFromCenter) + ((LINE_WIDTH+VERTICAL_SPACING) * numberOfLinesFromCenter) + LINE_WIDTH * 2;
 		if(segmentLength > remainingLength) {
 			segmentLength = remainingLength;
 		}
@@ -135,28 +148,17 @@ class CanvasController {
 	}
 
 	drawExperiment(experiment) {
-		let lineStart, lineEnd;
+		let lineStart;
 		const estimates = experiment.estimates;
 
 		let lineNum = 1;
 
-		const xStart = centerOfScreen - (resultsLineSpacing/2) - (lineWidth/2);
-		let xPos = xStart;
+		// let xPos = xStart;
 
 		estimates.forEach((estimate) => {
-			let maxLength = estimate.millis/20;
-			lineStart = new Point(xPos, 0);
-			lineEnd = new Point(xPos, maxLength);
+			// lineStart = new Point(xPos, 0);
 			if (lineNum < 35) {
-				this.drawEstimate(lineStart, estimate, lineNum);
-			}
-
-			if (lineNum % 2) {
-				// right side
-				xPos = xStart + (Math.round(lineNum/2) * resultsLineSpacing);
-			} else {
-				// left side
-				xPos = xStart - (Math.round(lineNum/2) * resultsLineSpacing);
+				this.drawEstimate(estimate, lineNum);
 			}
 
 			lineNum++;
@@ -169,10 +171,10 @@ class CanvasController {
 }
 
 function drawLineContinuous(context, posX) {
-	let posY = top;
-	context.strokeStyle = white;
+	let posY = Y_TOP;
+	context.strokeStyle = WHITE;
 	context.lineCap = 'round';
-	context.lineWidth = lineWidth;
+	context.lineWidth = LINE_WIDTH;
 
 	return () => {
 		context.beginPath();
