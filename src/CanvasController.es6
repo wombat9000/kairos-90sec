@@ -6,7 +6,7 @@ const context = Symbol();
 const canvas = Symbol();
 
 const LINE_SPACING = 26;
-const growthInterval = 100;
+const growthInterval = 160;
 const X_CENTER = document.body.clientWidth/2;
 const LINE_WIDTH = 8;
 const WHITE = 'rgb(255, 255, 255)';
