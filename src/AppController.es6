@@ -22,11 +22,11 @@ class AppController {
 		this[activeExperiment] = this[experimentRepository].findOrNew('1');
 	}
 
-	startNewEstimate() {
+	startNewEstimate(lineNum) {
 		this[canvasController].clearCanvas();
 		const xPos = this[activeExperiment].nextEstimateStartPos();
 		this[stopWatch].start();
-		return this[canvasController].startVerticalLine(xPos);
+		return this[canvasController].startEstimateDrawing(lineNum);
 	}
 
 	concludeEstimate(estimateDrawingIntervalId) {
@@ -68,13 +68,15 @@ class AppController {
 
 		let drawingIntervalId;
 		let currentState = waitingForNewEstimate;
+		let lineNum = this[activeExperiment].estimates.length;
 
 		return (event) => {
 			console.log(event.keyCode);
 
 			if(event.keyCode === spacebar) {
 				if (currentState === waitingForNewEstimate) {
-					drawingIntervalId = this.startNewEstimate();
+					lineNum++;
+					drawingIntervalId = this.startNewEstimate(lineNum);
 					currentState = estimateInProgress;
 				} else if (currentState === estimateInProgress) {
 					let estimate = this.concludeEstimate(drawingIntervalId);

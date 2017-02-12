@@ -39,7 +39,7 @@ class CanvasController {
 		return new Point(lineStart.x + xOffset, lineStart.y + yOffset);
 	}
 
-	calculatePointsForLine(lineNum, maximumLength) {
+	calculatePointsForLine(lineNum, maximumLength = 99999999) {
 		let xPos;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
@@ -160,10 +160,29 @@ class CanvasController {
 		return this.findPointByAngle(segmentStart, angle, segmentLength)
 	}
 
-	startVerticalLine(xPos) {
-		return setInterval(drawLineContinuous(this[context], xPos), growthInterval);
+	startEstimateDrawing(lineNum) {
+		const points = this.calculatePointsForLine(lineNum);
+
+		return setInterval(this.drawLineContinuous(points), growthInterval);
 	}
 
+	drawLineContinuous(points) {
+		const firstPoint = points[0];
+
+		this[context].strokeStyle = WHITE;
+		this[context].lineCap = 'round';
+		this[context].lineWidth = LINE_WIDTH;
+
+		let posY = firstPoint.y;
+
+		return () => {
+			this[context].beginPath();
+			this[context].moveTo(firstPoint.x, posY);
+			this[context].lineTo(firstPoint.x, posY+1);
+			this[context].stroke();
+			posY++;
+		}
+	}
 
 	drawLineFromPoints(points, color) {
 		for (let i = 0; i < (points.length-1); i++) {
@@ -190,21 +209,6 @@ class CanvasController {
 
 	clearCanvas() {
 		this[context].clearRect(0, 0, this[canvas].width, this[canvas].height);
-	}
-}
-
-function drawLineContinuous(context, posX) {
-	let posY = Y_TOP;
-	context.strokeStyle = WHITE;
-	context.lineCap = 'round';
-	context.lineWidth = LINE_WIDTH;
-
-	return () => {
-		context.beginPath();
-		context.moveTo(posX, posY);
-		context.lineTo(posX, posY+1);
-		context.stroke();
-		posY++;
 	}
 }
 
