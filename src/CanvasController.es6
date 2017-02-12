@@ -67,7 +67,7 @@ class CanvasController {
 			return points;
 		}
 
-		const secondSegmentEnd = this.drawSecondSegment(firstSegmentEnd, estimate, lineNum, remainingLength);
+		const secondSegmentEnd = this.drawSecondSegment(firstSegmentEnd, lineNum, remainingLength);
 
 		points.push(secondSegmentEnd);
 
@@ -77,7 +77,7 @@ class CanvasController {
 		}
 
 		if(numberOfLinesFromCenter == 1) {
-			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, estimate, lineNum, remainingLength);
+			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, lineNum, remainingLength);
 			remainingLength -= secondSegmentEnd.distanceTo(fourthSegmentEnd);
 			points.push(fourthSegmentEnd);
 
@@ -106,7 +106,7 @@ class CanvasController {
 			return points;
 		}
 
-		const fourthSegmentEnd = this.drawFourthSegment(thirdSegmentEnd, estimate, lineNum, remainingLength);
+		const fourthSegmentEnd = this.drawFourthSegment(thirdSegmentEnd, lineNum, remainingLength);
 		remainingLength -= thirdSegmentEnd.distanceTo(fourthSegmentEnd);
 		points.push(fourthSegmentEnd);
 
@@ -127,7 +127,7 @@ class CanvasController {
 		return segmentStart.findPointByAngle(90, segmentLength)
 	}
 
-	drawSecondSegment(segmentStart, estimate, lineNum, remainingLength) {
+	drawSecondSegment(segmentStart, lineNum, remainingLength) {
 		let angle;
 
 		if (lineNum % 2) {
@@ -136,10 +136,10 @@ class CanvasController {
 			angle = 90 - diagonalAngle;
 		}
 
-		return this.drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength);
+		return this.drawDiagonalSegment(segmentStart, lineNum, angle, remainingLength);
 	}
 
-	drawFourthSegment(segmentStart, estimate, lineNum, remainingLength) {
+	drawFourthSegment(segmentStart, lineNum, remainingLength) {
 		let angle;
 
 		if (lineNum % 2) {
@@ -148,10 +148,10 @@ class CanvasController {
 			angle = 90 + diagonalAngle;
 		}
 
-		return this.drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength);
+		return this.drawDiagonalSegment(segmentStart, lineNum, angle, remainingLength);
 	}
 
-	drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength) {
+	drawDiagonalSegment(segmentStart, lineNum, angle, remainingLength) {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
 		let segmentLength = 284 - (LINE_SPACING * numberOfLinesFromCenter) + ((LINE_WIDTH+VERTICAL_SPACING) * numberOfLinesFromCenter) + LINE_WIDTH * 2;
