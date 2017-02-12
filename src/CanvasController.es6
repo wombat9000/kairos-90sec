@@ -41,7 +41,7 @@ class CanvasController {
 		return lineEnd;
 	}
 
-	drawEstimate(lineStart, estimate, lineNum) {
+	drawEstimate(firstSegmentStart, estimate, lineNum) {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
 		let remainingLength = estimate.millis/15;
@@ -49,8 +49,8 @@ class CanvasController {
 		// draw first segment
 			// straight down
 			// gets shorter by some factor
-		const firstSegmentEnd = this.drawVerticalSegment(lineStart, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
-		remainingLength -= lineStart.distanceTo(firstSegmentEnd);
+		const firstSegmentEnd = this.drawVerticalSegment(firstSegmentStart, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
+		remainingLength -= firstSegmentStart.distanceTo(firstSegmentEnd);
 		if(remainingLength <= 0) {
 			return;
 		}
@@ -100,16 +100,12 @@ class CanvasController {
 		this.drawVerticalSegment(fourthSegmentEnd, estimate, lineNum, remainingLength);
 	}
 
-	drawVerticalSegment(segmentStart, estimate, remainingLength, length) {
-		let segmentEnd = new Point(segmentStart.x, segmentStart.y+length);
-
-		const distance = segmentStart.distanceTo(segmentEnd);
-		if(distance > remainingLength) {
-			segmentEnd = new Point(segmentStart.x, segmentStart.y+remainingLength);
+	drawVerticalSegment(segmentStart, estimate, remainingLength, segmentLength) {
+		if(segmentLength > remainingLength) {
+			segmentLength = remainingLength;
 		}
 
-		this.drawLine(segmentStart, segmentEnd, estimate.color);
-		return segmentEnd;
+		return this.drawLineDiagonal(segmentStart, 90, segmentLength, estimate.color)
 	}
 
 	drawSecondSegment(segmentStart, estimate, lineNum, remainingLength) {
@@ -139,11 +135,11 @@ class CanvasController {
 	drawDiagonalSegment(segmentStart, estimate, lineNum, angle, remainingLength) {
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
-		let length = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
-		if(length > remainingLength) {
-			length = remainingLength;
+		let segmentLength = 284 - (resultsLineSpacing * numberOfLinesFromCenter) + ((lineWidth+verticalSpacing) * numberOfLinesFromCenter) + lineWidth * 2;
+		if(segmentLength > remainingLength) {
+			segmentLength = remainingLength;
 		}
-		return this.drawLineDiagonal(segmentStart, angle, length, estimate.color)
+		return this.drawLineDiagonal(segmentStart, angle, segmentLength, estimate.color)
 	}
 
 	startVerticalLine(xPos) {
