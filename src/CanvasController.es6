@@ -24,7 +24,7 @@ class CanvasController {
 	drawLine(startPoint, endPoint, lineColor) {
 		this[context].strokeStyle = lineColor;
 		this[context].lineCap = 'round';
-
+		this[context].lineWidth = LINE_WIDTH;
 		this[context].beginPath();
 		this[context].moveTo(startPoint.x, startPoint.y);
 		this[context].lineTo(endPoint.x, endPoint.y);
@@ -161,26 +161,19 @@ class CanvasController {
 	}
 
 	startEstimateDrawing(lineNum) {
-		const points = this.calculatePointsForLine(lineNum);
 
-		return setInterval(this.drawLineContinuous(points), growthInterval);
+		return setInterval(this.drawLineContinuous(lineNum), growthInterval);
 	}
 
-	drawLineContinuous(points) {
-		const firstPoint = points[0];
+	drawLineContinuous(lineNum) {
+		let length = 1;
 
-		this[context].strokeStyle = WHITE;
-		this[context].lineCap = 'round';
-		this[context].lineWidth = LINE_WIDTH;
-
-		let posY = firstPoint.y;
 
 		return () => {
-			this[context].beginPath();
-			this[context].moveTo(firstPoint.x, posY);
-			this[context].lineTo(firstPoint.x, posY+1);
-			this[context].stroke();
-			posY++;
+			this.clearCanvas();
+			let points = this.calculatePointsForLine(lineNum, length);
+			this.drawLineFromPoints(points, WHITE);
+			length++;
 		}
 	}
 

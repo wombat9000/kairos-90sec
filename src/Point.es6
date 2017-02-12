@@ -18,11 +18,11 @@ class Point {
 		return this[y];
 	}
 
-	distanceTo(anotherPoint) {
-		const xDistance = Math.abs(this.x - anotherPoint.x);
-		const yDistance = Math.abs(this.y - anotherPoint.y);
+	distanceTo(other) {
+		const deltaX = Math.abs(this.x - other.x);
+		const deltaY = Math.abs(this.y - other.y);
 
-		return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
+		return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
 	}
 
 	findPointByAngle(angleInDegrees, length) {
@@ -31,6 +31,15 @@ class Point {
 		const yOffset = length * Math.sin(radians);
 
 		return new Point(Math.round(this.x + xOffset), Math.round(this.y + yOffset));
+	}
+
+	interpolateTo(target) {
+		const deltaX = target.x - this.x;
+		const deltaY = target.y - this.y;
+
+		const angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+
+		return this.findPointByAngle(angleInDegrees, 1);
 	}
 }
 
