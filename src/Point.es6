@@ -24,6 +24,14 @@ class Point {
 
 		return Math.sqrt(Math.pow(xDistance, 2) + Math.pow(yDistance, 2));
 	}
+
+	findPointByAngle(angleInDegrees, length) {
+		const radians = angleInDegrees * Math.PI / 180;
+		const xOffset = length * Math.cos(radians);
+		const yOffset = length * Math.sin(radians);
+
+		return new Point(Math.round(this.x + xOffset), Math.round(this.y + yOffset));
+	}
 }
 
 export {Point};
