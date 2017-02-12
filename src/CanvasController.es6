@@ -37,7 +37,7 @@ class CanvasController {
 		const yOffset = length * Math.sin(radians);
 
 		const lineEnd = new Point(lineStart.x + xOffset, lineStart.y + yOffset);
-		this.drawLine(lineStart, lineEnd, color);
+		// this.drawLine(lineStart, lineEnd, color);
 
 		return lineEnd;
 	}
@@ -55,48 +55,71 @@ class CanvasController {
 			xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
 		}
 
+		const points = [];
+
 		const firstSegmentStart = new Point(xPos, 0);
+
+		points.push(firstSegmentStart);
 
 		const firstSegmentEnd = this.drawVerticalSegment(firstSegmentStart, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
 		remainingLength -= firstSegmentStart.distanceTo(firstSegmentEnd);
+
+		points.push(firstSegmentEnd);
+
 		if(remainingLength <= 0) {
-			return;
+			return points;
 		}
 
 		const secondSegmentEnd = this.drawSecondSegment(firstSegmentEnd, estimate, lineNum, remainingLength);
+
+		points.push(secondSegmentEnd);
+
 		remainingLength -= firstSegmentEnd.distanceTo(secondSegmentEnd);
 		if(remainingLength <= 0) {
-			return;
+			return points;
 		}
 
 		if(numberOfLinesFromCenter == 1) {
 			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, estimate, lineNum, remainingLength);
 			remainingLength -= secondSegmentEnd.distanceTo(fourthSegmentEnd);
+			points.push(fourthSegmentEnd);
+
 			if(remainingLength <= 0) {
-				return;
+				return points;
 			}
 			const thirdSegmentEnd = this.drawVerticalSegment(fourthSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(LINE_WIDTH+4)));
 			remainingLength -= fourthSegmentEnd.distanceTo(thirdSegmentEnd);
+
+			points.push(thirdSegmentEnd);
+
 			if(remainingLength <= 0) {
-				return;
+				return points;
 			}
-			this.drawVerticalSegment(thirdSegmentEnd, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
-			return
+			const fifthSegmentEnd = this.drawVerticalSegment(thirdSegmentEnd, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
+			points.push(fifthSegmentEnd);
+
+			return points;
 		}
 
 		const thirdSegmentEnd = this.drawVerticalSegment(secondSegmentEnd, estimate, remainingLength, 430+(numberOfLinesFromCenter*(LINE_WIDTH+4)));
 		remainingLength -= secondSegmentEnd.distanceTo(thirdSegmentEnd);
+		points.push(thirdSegmentEnd);
+
 		if(remainingLength <= 0) {
-			return;
+			return points;
 		}
 
 		const fourthSegmentEnd = this.drawFourthSegment(thirdSegmentEnd, estimate, lineNum, remainingLength);
 		remainingLength -= thirdSegmentEnd.distanceTo(fourthSegmentEnd);
+		points.push(fourthSegmentEnd);
+
 		if(remainingLength <= 0) {
-			return;
+			return points;
 		}
 
-		this.drawVerticalSegment(fourthSegmentEnd, estimate, lineNum, remainingLength);
+		const fifthSegmentEnd = this.drawVerticalSegment(fourthSegmentEnd, estimate, lineNum, remainingLength);
+		points.push(fifthSegmentEnd);
+		return points;
 	}
 
 	drawVerticalSegment(segmentStart, estimate, remainingLength, segmentLength) {
@@ -145,13 +168,23 @@ class CanvasController {
 		return setInterval(drawLineContinuous(this[context], xPos), growthInterval);
 	}
 
+
+	drawLineFromPoints(points, color) {
+		for (let i = 0; i < (points.length-1); i++) {
+			this.drawLine(points[i], points[i+1], color);
+		}
+	}
+
 	drawExperiment(experiment) {
+		let points;
 		const estimates = experiment.estimates;
 		let lineNum = 1;
 
 		estimates.forEach((estimate) => {
 			if (lineNum < 35) {
-				this.drawEstimate(estimate, lineNum);
+				points = this.drawEstimate(estimate, lineNum);
+
+				this.drawLineFromPoints(points, estimate.color);
 			}
 
 			lineNum++;
