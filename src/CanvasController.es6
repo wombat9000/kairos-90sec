@@ -44,6 +44,7 @@ class CanvasController {
 
 	drawEstimate(estimate, lineNum) {
 		let xPos;
+		let remainingLength = estimate.millis/15;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
 
 		if (lineNum % 2) {
@@ -55,9 +56,6 @@ class CanvasController {
 		}
 
 		const firstSegmentStart = new Point(xPos, 0);
-
-
-		let remainingLength = estimate.millis/15;
 
 		const firstSegmentEnd = this.drawVerticalSegment(firstSegmentStart, estimate, remainingLength, (50-numberOfLinesFromCenter*2));
 		remainingLength -= firstSegmentStart.distanceTo(firstSegmentEnd);
@@ -71,7 +69,7 @@ class CanvasController {
 			return;
 		}
 
-		if(lineNum <= 2) {
+		if(numberOfLinesFromCenter == 1) {
 			const fourthSegmentEnd = this.drawFourthSegment(secondSegmentEnd, estimate, lineNum, remainingLength);
 			remainingLength -= secondSegmentEnd.distanceTo(fourthSegmentEnd);
 			if(remainingLength <= 0) {
@@ -148,15 +146,10 @@ class CanvasController {
 	}
 
 	drawExperiment(experiment) {
-		let lineStart;
 		const estimates = experiment.estimates;
-
 		let lineNum = 1;
 
-		// let xPos = xStart;
-
 		estimates.forEach((estimate) => {
-			// lineStart = new Point(xPos, 0);
 			if (lineNum < 35) {
 				this.drawEstimate(estimate, lineNum);
 			}
