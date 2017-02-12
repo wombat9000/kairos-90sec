@@ -6,8 +6,7 @@ const context = Symbol();
 const canvas = Symbol();
 
 const LINE_SPACING = 26;
-const Y_TOP = 0;
-const growthInterval = 44;
+const growthInterval = 100;
 const X_CENTER = document.body.clientWidth/2;
 const LINE_WIDTH = 8;
 const WHITE = 'rgb(255, 255, 255)';
@@ -168,7 +167,6 @@ class CanvasController {
 	drawLineContinuous(lineNum) {
 		let length = 1;
 
-
 		return () => {
 			this.clearCanvas();
 			let points = this.calculatePointsForLine(lineNum, length);
@@ -190,7 +188,7 @@ class CanvasController {
 
 		estimates.forEach((estimate) => {
 			if (lineNum < 35) {
-				let maxLength = estimate.millis/15;
+				let maxLength = estimate.millis/150;
 				points = this.calculatePointsForLine(lineNum, maxLength);
 
 				this.drawLineFromPoints(points, estimate.color);

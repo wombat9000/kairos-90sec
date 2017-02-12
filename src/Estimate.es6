@@ -29,8 +29,8 @@ class Estimate {
 		const maxRed = 'rgb(191, 114, 48)';
 		const maxPetrol = 'rgb(29, 112, 116)';
 
-		const maxMiss = 5000;
-		const target = 10000;
+		const maxMiss = 60000;
+		const target = 90000;
 
 		const miss = Math.round(Math.abs(target - this[millis]));
 		const ratio = miss/maxMiss;
