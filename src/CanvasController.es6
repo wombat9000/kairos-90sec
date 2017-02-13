@@ -193,7 +193,7 @@ class CanvasController {
 	}
 
 	startEstimateDrawingLinear(lineNum) {
-		return setInterval(this.drawLineContinuousLinear(lineNum), growthInterval);
+		return setInterval(this.drawLineContinuousLinear(lineNum), growthInterval*2);
 	}
 
 	drawLineContinuous(lineNum) {
@@ -263,7 +263,7 @@ class CanvasController {
 				xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
 			}
 
-			let maxLength = estimate.millis/150;
+			let maxLength = estimate.millis/220;
 			lineStart = new Point(xPos, 0);
 			lineEnd = new Point(xPos, maxLength);
 			if (numLines < 35) {
