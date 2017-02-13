@@ -7,12 +7,10 @@ const canvas = Symbol();
 
 const LINE_SPACING = 26;
 const growthInterval = 160;
-const X_CENTER = document.body.clientWidth/2;
 const LINE_WIDTH = 8;
 const WHITE = 'rgb(255, 255, 255)';
 const diagonalAngle = 75;
 const VERTICAL_SPACING = 2;
-const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
 
 class CanvasController {
 	constructor(_canvas) {
@@ -38,9 +36,12 @@ class CanvasController {
 		return new Point(lineStart.x + xOffset, lineStart.y + yOffset);
 	}
 
-	calculatePointsForLine(lineNum, maximumLength = 99999999) {
+	calculatePointsForLine(lineNum, maximumLength) {
 		let xPos;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
+
+		const X_CENTER = document.body.clientWidth/2;
+		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
 
 		if (lineNum % 2) {
 			// right side
@@ -160,7 +161,6 @@ class CanvasController {
 	}
 
 	startEstimateDrawing(lineNum) {
-
 		return setInterval(this.drawLineContinuous(lineNum), growthInterval);
 	}
 
@@ -181,7 +181,7 @@ class CanvasController {
 		}
 	}
 
-	drawExperiment(experiment) {
+	drawExperimentCubic(experiment) {
 		let points;
 		const estimates = experiment.estimates;
 		let lineNum = 1;
@@ -195,6 +195,39 @@ class CanvasController {
 			}
 
 			lineNum++;
+		})
+	}
+
+	drawExperimentLinear(experiment) {
+		let lineStart, lineEnd;
+		const estimates = experiment.estimates;
+		let numLines = 1;
+
+		let xPos;
+		const numberOfLinesFromCenter = Math.round(numLines/2);
+
+		const X_CENTER = document.body.clientWidth/2;
+		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
+
+
+		estimates.forEach((estimate) => {
+
+			let maxLength = estimate.millis/20;
+			lineStart = new Point(xPos, 0);
+			lineEnd = new Point(xPos, maxLength);
+			if (numLines < 35) {
+				this.drawLine(lineStart, lineEnd, estimate.color);
+			}
+
+			if (numLines % 2) {
+				// right side
+				xPos = X_START - (numberOfLinesFromCenter * LINE_SPACING);
+			} else {
+				// left side
+				xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
+			}
+
+			numLines++;
 		})
 	}
 

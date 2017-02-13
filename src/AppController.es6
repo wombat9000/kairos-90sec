@@ -24,7 +24,6 @@ class AppController {
 
 	startNewEstimate(lineNum) {
 		this[canvasController].clearCanvas();
-		const xPos = this[activeExperiment].nextEstimateStartPos();
 		this[stopWatch].start();
 		return this[canvasController].startEstimateDrawing(lineNum);
 	}
@@ -35,9 +34,14 @@ class AppController {
 		return new Estimate(elapsedMillis);
 	}
 
-	showResults(experiment) {
+	showResultsCubic(experiment) {
 		this[canvasController].clearCanvas();
-		this[canvasController].drawExperiment(experiment);
+		this[canvasController].drawExperimentCubic(experiment);
+	}
+
+	showResultsLinear(experiment) {
+		this[canvasController].clearCanvas();
+		this[canvasController].drawExperimentLinear(experiment);
 	}
 
 	addEstimateToCurrentExperiment(estimate) {
@@ -66,6 +70,11 @@ class AppController {
 		const estimateInProgress = 1;
 		const showEstimates = 2;
 
+		const cubic = 0;
+		const linear = 1;
+
+		let display = cubic;
+
 		let drawingIntervalId;
 		let currentState = waitingForNewEstimate;
 		let lineNum = this[activeExperiment].estimates.length;
@@ -83,8 +92,14 @@ class AppController {
 					this.addEstimateToCurrentExperiment(estimate);
 					currentState = showEstimates;
 				} else if (currentState === showEstimates) {
-					this.showResults(this[activeExperiment]);
-					currentState = waitingForNewEstimate;
+					if(display === linear) {
+						this.showResultsLinear(this[activeExperiment]);
+						currentState = waitingForNewEstimate;
+					} else {
+						this.showResultsCubic(this[activeExperiment]);
+						currentState = waitingForNewEstimate;
+					}
+
 				}
 			}
 
@@ -94,8 +109,15 @@ class AppController {
 				}
 
 				if (event.keyCode === t) {
-					// this.proceedToNextExperiment();
-				}
+					if(display === linear) {
+						display = cubic;
+						this.showResultsCubic(this[activeExperiment]);
+						currentState = waitingForNewEstimate;
+					} else {
+						display = linear;
+						this.showResultsLinear(this[activeExperiment]);
+						currentState = waitingForNewEstimate;
+					}				}
 			}
 		}
 	}
