@@ -36,6 +36,34 @@ class CanvasController {
 		return new Point(lineStart.x + xOffset, lineStart.y + yOffset);
 	}
 
+	calculatePointsForLineLinear(lineNum, maxLength) {
+		let xPos;
+		const numberOfLinesFromCenter = Math.round(lineNum/2);
+
+		const X_CENTER = document.body.clientWidth/2;
+		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
+
+		if (lineNum % 2) {
+			// right side
+			xPos = X_START - (numberOfLinesFromCenter * LINE_SPACING);
+		} else {
+			// left side
+			xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
+		}
+
+		const points = [];
+
+		const firstSegmentStart = new Point(xPos, 0);
+
+		points.push(firstSegmentStart);
+
+		const secondPoint = new Point(xPos, maxLength);
+
+		points.push(secondPoint);
+
+		return points;
+	}
+
 	calculatePointsForLine(lineNum, maximumLength) {
 		let xPos;
 		const numberOfLinesFromCenter = Math.round(lineNum/2);
@@ -164,12 +192,27 @@ class CanvasController {
 		return setInterval(this.drawLineContinuous(lineNum), growthInterval);
 	}
 
+	startEstimateDrawingLinear(lineNum) {
+		return setInterval(this.drawLineContinuousLinear(lineNum), growthInterval);
+	}
+
 	drawLineContinuous(lineNum) {
 		let length = 1;
 
 		return () => {
 			this.clearCanvas();
 			let points = this.calculatePointsForLine(lineNum, length);
+			this.drawLineFromPoints(points, WHITE);
+			length++;
+		}
+	}
+
+	drawLineContinuousLinear(lineNum) {
+		let length = 1;
+
+		return () => {
+			this.clearCanvas();
+			let points = this.calculatePointsForLineLinear(lineNum, length);
 			this.drawLineFromPoints(points, WHITE);
 			length++;
 		}
@@ -204,20 +247,13 @@ class CanvasController {
 		let numLines = 1;
 
 		let xPos;
-		const numberOfLinesFromCenter = Math.round(numLines/2);
 
 		const X_CENTER = document.body.clientWidth/2;
 		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
 
 
 		estimates.forEach((estimate) => {
-
-			let maxLength = estimate.millis/20;
-			lineStart = new Point(xPos, 0);
-			lineEnd = new Point(xPos, maxLength);
-			if (numLines < 35) {
-				this.drawLine(lineStart, lineEnd, estimate.color);
-			}
+			const numberOfLinesFromCenter = Math.round(numLines/2);
 
 			if (numLines % 2) {
 				// right side
@@ -227,8 +263,19 @@ class CanvasController {
 				xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
 			}
 
+			let maxLength = estimate.millis/150;
+			lineStart = new Point(xPos, 0);
+			lineEnd = new Point(xPos, maxLength);
+			if (numLines < 35) {
+				this.drawLine(lineStart, lineEnd, estimate.color);
+			}
+
+
+
 			numLines++;
 		})
+
+
 	}
 
 	clearCanvas() {

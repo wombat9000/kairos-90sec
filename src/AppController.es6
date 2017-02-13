@@ -28,6 +28,12 @@ class AppController {
 		return this[canvasController].startEstimateDrawing(lineNum);
 	}
 
+	startNewEstimateLinear(lineNum) {
+		this[canvasController].clearCanvas();
+		this[stopWatch].start();
+		return this[canvasController].startEstimateDrawingLinear(lineNum);
+	}
+
 	concludeEstimate(estimateDrawingIntervalId) {
 		const elapsedMillis = this[stopWatch].stop();
 		clearInterval(estimateDrawingIntervalId);
@@ -85,7 +91,11 @@ class AppController {
 			if(event.keyCode === spacebar) {
 				if (currentState === waitingForNewEstimate) {
 					lineNum++;
-					drawingIntervalId = this.startNewEstimate(lineNum);
+					if(display === linear) {
+						drawingIntervalId = this.startNewEstimateLinear(lineNum);
+					} else {
+						drawingIntervalId = this.startNewEstimate(lineNum);
+					}
 					currentState = estimateInProgress;
 				} else if (currentState === estimateInProgress) {
 					let estimate = this.concludeEstimate(drawingIntervalId);
@@ -94,11 +104,11 @@ class AppController {
 				} else if (currentState === showEstimates) {
 					if(display === linear) {
 						this.showResultsLinear(this[activeExperiment]);
-						currentState = waitingForNewEstimate;
 					} else {
 						this.showResultsCubic(this[activeExperiment]);
-						currentState = waitingForNewEstimate;
 					}
+
+					currentState = waitingForNewEstimate;
 
 				}
 			}
@@ -106,6 +116,7 @@ class AppController {
 			if (currentState === waitingForNewEstimate) {
 				if (event.keyCode === q) {
 					this.clearStorage();
+					lineNum = this[activeExperiment].estimates.length;
 				}
 
 				if (event.keyCode === t) {
@@ -117,7 +128,8 @@ class AppController {
 						display = linear;
 						this.showResultsLinear(this[activeExperiment]);
 						currentState = waitingForNewEstimate;
-					}				}
+					}
+				}
 			}
 		}
 	}
