@@ -37,8 +37,11 @@ class CanvasController {
 	}
 
 	calculatePointsForLineLinear(lineNum, maxLength) {
-		let xPos;
-		xPos = 5 + lineNum * LINE_SPACING;
+		const X_CENTER = document.body.clientWidth/2;
+		const X_START = X_CENTER - LINE_SPACING/2 - LINE_WIDTH/2 - (LINE_SPACING * 17);
+
+		let xPos = X_START + lineNum * LINE_SPACING;
+
 
 		const points = [];
 
