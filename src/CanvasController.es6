@@ -235,8 +235,11 @@ class CanvasController {
 		const estimates = experiment.estimates;
 		let numLines = 1;
 
+		const X_CENTER = document.body.clientWidth/2;
+		const X_START = X_CENTER - LINE_SPACING/2 - LINE_WIDTH/2 - (LINE_SPACING * 17);
+
 		estimates.forEach((estimate) => {
-			let xPos = 5 + numLines * LINE_SPACING;
+			let xPos = X_START + numLines * LINE_SPACING;
 			console.log(xPos);
 
 			let maxLength = estimate.millis/25;
