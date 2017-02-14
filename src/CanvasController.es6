@@ -6,7 +6,7 @@ const context = Symbol();
 const canvas = Symbol();
 
 const LINE_SPACING = 26;
-const growthInterval = 160;
+const growthInterval = 40;
 const LINE_WIDTH = 8;
 const WHITE = 'rgb(255, 255, 255)';
 const diagonalAngle = 75;
@@ -38,18 +38,7 @@ class CanvasController {
 
 	calculatePointsForLineLinear(lineNum, maxLength) {
 		let xPos;
-		const numberOfLinesFromCenter = Math.round(lineNum/2);
-
-		const X_CENTER = document.body.clientWidth/2;
-		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
-
-		if (lineNum % 2) {
-			// right side
-			xPos = X_START - (numberOfLinesFromCenter * LINE_SPACING);
-		} else {
-			// left side
-			xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
-		}
+		xPos = 5 + lineNum * LINE_SPACING;
 
 		const points = [];
 
@@ -193,7 +182,7 @@ class CanvasController {
 	}
 
 	startEstimateDrawingLinear(lineNum) {
-		return setInterval(this.drawLineContinuousLinear(lineNum), growthInterval*2);
+		return setInterval(this.drawLineContinuousLinear(lineNum), Math.round(growthInterval*1.5));
 	}
 
 	drawLineContinuous(lineNum) {
@@ -231,7 +220,7 @@ class CanvasController {
 
 		estimates.forEach((estimate) => {
 			if (lineNum < 35) {
-				let maxLength = estimate.millis/150;
+				let maxLength = estimate.millis/20;
 				points = this.calculatePointsForLine(lineNum, maxLength);
 
 				this.drawLineFromPoints(points, estimate.color);
@@ -246,36 +235,19 @@ class CanvasController {
 		const estimates = experiment.estimates;
 		let numLines = 1;
 
-		let xPos;
-
-		const X_CENTER = document.body.clientWidth/2;
-		const X_START = X_CENTER - (LINE_SPACING/2) - (LINE_WIDTH/2);
-
-
 		estimates.forEach((estimate) => {
-			const numberOfLinesFromCenter = Math.round(numLines/2);
+			let xPos = 5 + numLines * LINE_SPACING;
+			console.log(xPos);
 
-			if (numLines % 2) {
-				// right side
-				xPos = X_START - (numberOfLinesFromCenter * LINE_SPACING);
-			} else {
-				// left side
-				xPos = X_START + (numberOfLinesFromCenter * LINE_SPACING);
-			}
-
-			let maxLength = estimate.millis/220;
+			let maxLength = estimate.millis/25;
 			lineStart = new Point(xPos, 0);
 			lineEnd = new Point(xPos, maxLength);
 			if (numLines < 35) {
 				this.drawLine(lineStart, lineEnd, estimate.color);
 			}
 
-
-
 			numLines++;
 		})
-
-
 	}
 
 	clearCanvas() {

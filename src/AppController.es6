@@ -86,7 +86,6 @@ class AppController {
 		let lineNum = this[activeExperiment].estimates.length;
 
 		return (event) => {
-			console.log(event.keyCode);
 
 			if(event.keyCode === spacebar) {
 				if (currentState === waitingForNewEstimate) {
